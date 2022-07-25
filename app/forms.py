@@ -47,81 +47,81 @@ class RegisterEmployee(UserCreationForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control my-1'
 
-# ### FORMULARIO DE AÇÕES
-# class TableActionForm(ModelForm):
-#     class Meta:
-#         model = TableActionModel
-#         fields = ['acao_realizada', 'tecnico_presencial', 'tecnico_nao_presencial',
-#         'outras_acoes', 'n_profissionais_atendidos', 'descricao_acao', 'data_acao','municipio_atendido']
-#         labels = {
-#                     "acao_realizada": "TIPO DA AÇÃO:",
-#                     "tecnico_presencial": "Apoio Técnico Presencial:",
-#                     "tecnico_nao_presencial": "Apoio Técnico Não Presencial:",
-#                     "outras_acoes": "Outras Ações:",
-#                     "n_profissionais_atendidos": "Nº de Profissionais atendidos:",
-#                     "descricao_acao":"Descreva brevemente o tipo de demanda atendida:",
-#                     "data_acao":"Data da ação realizada:",
-#                     "municipio_atendido":"Município Atendido"
+### FORMULARIO DE AÇÕES
+class TableActionForm(ModelForm):
+    class Meta:
+        model = TableActionModel
+        fields = ['acao_realizada', 'tecnico_presencial', 'tecnico_nao_presencial',
+        'outras_acoes', 'n_profissionais_atendidos', 'descricao_acao', 'data_acao','municipio_atendido']
+        labels = {
+                    "acao_realizada": "TIPO DA AÇÃO:",
+                    "tecnico_presencial": "Apoio Técnico Presencial:",
+                    "tecnico_nao_presencial": "Apoio Técnico Não Presencial:",
+                    "outras_acoes": "Outras Ações:",
+                    "n_profissionais_atendidos": "Nº de Profissionais atendidos:",
+                    "descricao_acao":"Descreva brevemente o tipo de demanda atendida:",
+                    "data_acao":"Data da ação realizada:",
+                    "municipio_atendido":"Município Atendido"
 
-#                     }
+                    }
 
-#         widgets = {
-#             'data_acao': forms.DateInput(attrs={'type':'date'}),
-#         }
-#     # def __init__(self, *args, **kwargs):
-#     #     super(TableActionForm, self).__init__(*args, **kwargs)
-#     #     self.fields['n_profissionais_atendidos'].label = "Numero de Funcionarios Atendidos"
+        widgets = {
+            'data_acao': forms.DateInput(attrs={'type':'date'}),
+        }
+    # def __init__(self, *args, **kwargs):
+    #     super(TableActionForm, self).__init__(*args, **kwargs)
+    #     self.fields['n_profissionais_atendidos'].label = "Numero de Funcionarios Atendidos"
 
-# #### FORMULARIO DE EVENTOS
-# class TableEventForm(ModelForm):
-#     class Meta:
-#         model = TableEventModel
-#         fields = ['titulo_evento', 'tipo_evento', 'instituicao_ofertante','data_inicial', 'data_final','descricao_evento']
-#         labels = {
-#             'titulo_evento':"Título do evento", 
-#             'tipo_evento':"Tipo de evento", 
-#             'instituicao_ofertante':"Intituição ofertante",
-#             'data_inicial':"Data inicial", 
-#             'data_final':"Data final",
-#             'descricao_evento':"Descrição do Evento"
-#             }
-#         widgets = {
-#             'titulo_evento': forms.TextInput(),
-#             'data_inicial': forms.DateInput(attrs={'type':'date'}),
-#             'data_final': forms.DateInput(attrs={'type':'date'})
-#         }
+#### FORMULARIO DE EVENTOS
+class TableEventForm(ModelForm):
+    class Meta:
+        model = TableEventModel
+        fields = ['titulo_evento', 'tipo_evento', 'instituicao_ofertante','data_inicial', 'data_final','descricao_evento']
+        labels = {
+            'titulo_evento':"Título do evento", 
+            'tipo_evento':"Tipo de evento", 
+            'instituicao_ofertante':"Intituição ofertante",
+            'data_inicial':"Data inicial", 
+            'data_final':"Data final",
+            'descricao_evento':"Descrição do Evento"
+            }
+        widgets = {
+            'titulo_evento': forms.TextInput(),
+            'data_inicial': forms.DateInput(attrs={'type':'date'}),
+            'data_final': forms.DateInput(attrs={'type':'date'})
+        }
 
-#     def clean(self):
-#         super(TableEventForm, self).clean()
+    def clean(self):
+        super(TableEventForm, self).clean()
 
-#         titulo_evento = self.cleaned_data.get("title_event")
-#         tipo_evento = self.cleaned_data.get("event_feature")
-#         data_inicial = self.cleaned_data.get("date_initial")
-#         data_final = self.cleaned_data.get("date_final")
+        titulo_evento = self.cleaned_data.get("title_event")
+        tipo_evento = self.cleaned_data.get("event_feature")
+        data_inicial = self.cleaned_data.get("date_initial")
+        data_final = self.cleaned_data.get("date_final")
 
-#         return self.cleaned_data
-
-
-#     # def __init__(self, *args, **kwargs):
-#     #     super(TableEventForm, self).__init__(*args, **kwargs)
-#     #     self.fields['tipo_evento'].label = "Característica do Evento"
+        return self.cleaned_data
 
 
-# ### FORMULARIO DE REGISTRO DE PARTICIPAÇÃO EM INSTANCIAS INTERSETORIAIS DO SUAS
-# class TableIntersetForm(ModelForm):
-#     class Meta:
-#         model = TableIntersetModel
-#         fields = ['espaco_participacao','data_inicial','data_final','descricao','encaminhamentos']
-#         labels ={
-#             'espaco_participacao':'Espaço de participação',
-#             'data_inicial':'Data inicial',
-#             'data_final':'Data final',
-#             'descricao':'Descrição',
-#             'encaminhamentos':'Encaminhamentos (caso houve algum)'
-#         }   
-#         widgets = {
-#             'data_inicial': forms.DateInput(attrs={'type':'date'}),
-#             'data_final': forms.DateInput(attrs={'type':'date'})
-#         }     
+    # def __init__(self, *args, **kwargs):
+    #     super(TableEventForm, self).__init__(*args, **kwargs)
+    #     self.fields['tipo_evento'].label = "Característica do Evento"
+
+
+### FORMULARIO DE REGISTRO DE PARTICIPAÇÃO EM INSTANCIAS INTERSETORIAIS DO SUAS
+class TableIntersetForm(ModelForm):
+    class Meta:
+        model = TableIntersetModel
+        fields = ['espaco_participacao','data_inicial','data_final','descricao','encaminhamentos']
+        labels ={
+            'espaco_participacao':'Espaço de participação',
+            'data_inicial':'Data inicial',
+            'data_final':'Data final',
+            'descricao':'Descrição',
+            'encaminhamentos':'Encaminhamentos (caso houve algum)'
+        }   
+        widgets = {
+            'data_inicial': forms.DateInput(attrs={'type':'date'}),
+            'data_final': forms.DateInput(attrs={'type':'date'})
+        }     
 
 

@@ -19,6 +19,14 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    ### theme templates
+    path('', views.index),
+    path('tables/', views.tables),
+    path('register/', views.register),
+    path('login/', views.login),
+    path('charts/', views.charts),
+    path('password/', views.password),
+    ### registroSuas templates
     path('users/', include('app.urls'))
     
 ]
