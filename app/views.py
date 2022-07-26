@@ -40,10 +40,10 @@ def table_event(request):
             profile = form_table_event.save(commit=False)
             profile.user = request.user
             profile.save()
-            return redirect('/users/tabelas')
+            return redirect('/users/formulario-de-evento')
     else:
         form_table_event = TableEventForm()
-    return render(request, 'tables/tableEvent/tableEventRegister.html', {'form_table_event':form_table_event})
+    return render(request, 'app/tables/tableEvent/tableEventRegister.html', {'form_table_event':form_table_event})
 
 
 #### REGISTRA O FORMULARIO DE ACOES -------------------------------------------------------------------------
@@ -57,10 +57,10 @@ def table_action(request):
             profile.user = request.user
             profile.save()
             form_table_action.save()
-            return redirect('/users/tabelas')
+            return redirect('/users/formulario-de-acao')
     else:
         form_table_action = TableActionForm()
-    return render(request, 'tables/tableAction/tableActionRegister.html', {'form_table_action':form_table_action})
+    return render(request, 'app/tables/tableAction/tableActionRegister.html', {'form_table_action':form_table_action})
 
 
 
@@ -75,10 +75,10 @@ def table_interset(request):
             profile.user = request.user
             profile.save()
             form_table_interset.save()
-            return redirect('/users/tabelas')
+            return redirect('/users/forlulario-de-instancias')
     else:
         form_table_interset = TableIntersetForm()
-    return render(request, 'tables/tableInterset/tableIntersetRegister.html', {'form_table_interset':form_table_interset})
+    return render(request, 'app/tables/tableInterset/tableIntersetRegister.html', {'form_table_interset':form_table_interset})
 
 # DELETAR 
 @login_required(login_url='contas/login')
@@ -118,7 +118,7 @@ def tables(request):
     table_event_page_object = TableEventModel.objects.filter(user=request.user).values().order_by('-id')
     table_interset_page_object = TableIntersetModel.objects.filter(user=request.user).values().order_by('-id')
 
-    return render(request, 'tables/viewAllTable.html',
+    return render(request, 'app/tables/viewAllTable.html',
     {
     'table_action_page_object':table_action_page_object,
     'table_event_page_object':table_event_page_object,
@@ -194,13 +194,16 @@ def table_event_update(request, id):
 
 
 
+def index_users(request):
+    return render(request, 'app/index_users.html')
+
 
 def index(request):
     return render(request, 'app/index.html')
 
 
-def tables(request):
-    return render(request, 'app/tables.html')
+# def tables(request):
+#     return render(request, 'app/tables.html')
 
 
 def register(request):

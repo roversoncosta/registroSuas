@@ -6,6 +6,7 @@ from .views import *
 
 urlpatterns = [
     path('registrar', view=register_user, name="register_user"),
+    path('principal-usuario', view=index_users, name="index_users"),
     path('formulario-de-evento', view=table_event, name='table_event'),
     path('formulario-de-acao', view=table_action, name="table_action"),
     path('formulario-de-instancias', view=table_interset, name="table_interset"),

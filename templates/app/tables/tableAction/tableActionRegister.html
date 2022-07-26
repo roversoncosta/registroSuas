@@ -1,0 +1,60 @@
+{% extends 'app/index_users.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title%} Registro de Ações {% endblock %}
+
+
+{% block content %}
+<div class="container w-75 mb-3">      
+  <div class="row mx-auto">
+    <div class="col-md-2">
+    </div>
+    <h4 class="font-weight-bold text-center mt-4 mb-4 center" >Registro de Ações Realizadas </h4>
+      
+  
+    <div class="card-body">  
+      <form method="post" >
+          {% csrf_token %}
+            <div class="row">
+              <div class="col-md-12" >
+                {{form_table_action.acao_realizada|as_crispy_field }}
+              </div>
+              <div class="col-md-4">
+                {{ form_table_action.tecnico_presencial|as_crispy_field }}
+              </div>
+              <div class="col-md-4">
+                {{ form_table_action.tecnico_nao_presencial|as_crispy_field }}
+              </div>
+              <div class="col-md-4">
+                {{ form_table_action.outras_acoes|as_crispy_field }}
+              </div>
+              
+              <div class="col-md-4">
+                {{ form_table_action.municipio_atendido|as_crispy_field }}
+              </div>
+              <div class="col-md-4">
+                {{ form_table_action.n_profissionais_atendidos|as_crispy_field }}
+              </div>
+
+              <div class="col-md-4">
+                {{ form_table_action.data_acao|as_crispy_field }}
+              </div>
+              
+            </div>
+            <div class="mx-auto">
+                {{ form_table_action.descricao_acao|as_crispy_field }}
+            </div>
+
+            <div class="container">
+                <div class="row md-4">
+                    <div class="col text-center mt-3">
+                        <button type="submit" class="btn btn-success btn-md text-center">Registrar</button>
+                    </div>
+                </div>
+              </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

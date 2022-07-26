@@ -1,0 +1,51 @@
+{% extends 'app/index_users.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title%} Atualizar Registro de Participação em Eventos {% endblock %}
+
+
+{% block content %}
+<div class="container w-75 mb-3">      
+  <div class="row mx-auto">
+    <div class="col-md-2">
+    </div>
+    <h4 class="font-weight-bold text-center mt-4 mb-4 center" >Atualizar Registro de Participação em Eventos </h4>
+      
+  
+    <div class="card-body"> 
+      <form method="post" >
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-6">
+                  {{form_table_event.titulo_evento|as_crispy_field}}
+              </div>
+              <div class="col-md-6">
+                {{form_table_event.instituicao_ofertante|as_crispy_field}}
+            </div>
+              <div class="col-md-4">
+                  {{ form_table_event.tipo_evento|as_crispy_field}}
+              </div>
+              <div class="col-md-4">
+                  {{ form_table_event.data_inicial|as_crispy_field}}
+              </div>
+              
+              <div class="col-md-4">
+                  {{ form_table_event.data_final|as_crispy_field}}
+              </div>
+              <div class="col-md-12">
+                {{form_table_event.descricao_evento|as_crispy_field}}
+            </div>
+      
+            <div class="container">
+                <div class="row md-4">
+                    <div class="col text-center mt-3">
+                        <button type="submit" class="btn btn-success btn-md text-center">Registrar</button>
+                    </div>
+                </div>
+              </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,172 @@
+{% extends 'index.html' %}
+{% load static%}
+{% block title %} 📋 Tabelas {% endblock %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
+
+
+
+
+
+
+
+<div class="container rounded ">
+  
+  <h2 class="text-center my-4">Registro Unificado de Ações</h2>
+
+  <table class="table table-sm shadow-lg rounded" id="mydatatable">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Tipo de Registro</th>
+        <th scope="col">Tecnico não Presencial</th>
+        <th scope="col">Tecnico Presencial</th>
+        <th scope="col">Outras Ações</th>
+        <th scope="col">Num. de Funcionarios</th>
+        <th scope="col">Município Atendido</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Data Ação</th>
+        <th scope="col">Deletar</th>
+        <th scope="col">Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for table in table_action_page_object %}
+      <tr>
+        <td>{{table.id}}</td>
+        <td>{{table.acao_realizada}}</td>
+        <td>{{table.tecnico_nao_presencial}}</td>
+        <td>{{table.tecnico_presencial}}</td>
+        <td>{{table.outras_acoes}}</td>
+        <td>{{table.numbers_employee}}</td>
+        <td>{{table.municipio_atendido}}</td>
+
+        <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
+          </a></td>
+        <td>{{table.date_actions}}</td>
+        <td>
+          <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
+              <i class="fa-solid fa-trash"></i></button>
+          </form>
+        </td>
+        <td><a href="{% url 'tableActionUpdate' id=table.id%}">
+            <button type="button" class="btn btn-info">
+              <i class="fas fa-edit"></i>
+            </button>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+  
+</div>
+
+<div class="container rounded">
+  <h2 class="text-center my-5">Registro Unificado de Eventos</h2>
+  <table class="table table-sm table-stripped shadow-lg rounded" id="mytableevent">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome do Evento</th>
+        <th scope="col">Tipo do Evento</th>
+        <th scope="col">Deletar</th>
+        <th scope="col">Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for table in table_event_page_object %}
+      <tr>
+        <td scope="row">{{table.id}}</td>
+        <td>{{table.title_event}}</td>
+        <td>{{table.event_feature}}</td>
+        <td>
+          <form method="post" action="{% url 'deleteTableEvent' id=table.id %}">
+            {% csrf_token %}
+            <a href="{% url 'deleteTableEvent' id=table.id %}" id="delete-item">
+                <button type="submit" class="btn btn-danger">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </a>
+            </form>
+        </td>
+        <td><a href="{% url 'tableEventUpdate' id=table.id%}">
+            <button type="button" class="btn btn-info">
+              <i class="fas fa-edit"></i>
+            </button>
+
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="tableActionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Descrição</h5>
+            </div>
+            <div class="modal-body">
+                {{id_description.description_action}}
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonClose">Fechar
+                    Descrição</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+<script type='text/javascript'>
+    $(window).on('load', function () {
+        $('#tableActionModal').modal('show');
+    });
+    $(document).ready(function () {
+        // Close modal on button click
+        $(".btn").click(function () {
+            $("#tableActionModal").modal('hide');
+        });
+    });
+</script>
+<script>
+  $('#mydatatable').dataTable( {
+    language:{
+      "lengthMenu": "Mostrar _MENU_ registros por página",
+      "zeroRecords": "Nenhum registro encontrado",
+      "info": "Mostrando página _PAGE_ de _PAGES_",
+      "search": "Pesquisar",
+    },
+    pageLength : 5,
+    paging: true,
+    searching: true,
+    responsive: true,
+} );
+  </script>
+<script>
+  $('#mytableevent').dataTable( {
+    language:{
+      "lengthMenu": "Mostrar _MENU_ registros por página",
+      "zeroRecords": "Nenhum registro encontrado",
+      "info": "Mostrando página _PAGE_ de _PAGES_",
+      "search": "Pesquisar",
+    },
+    pageLength : 5,
+    paging: true,
+    searching: true,
+    responsive: true,
+} );
+  </script>
+{% endblock%}

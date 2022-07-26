@@ -1,0 +1,48 @@
+{% extends 'app/index_users.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title%} Atualizar Registro Participação em Instâncias do SUAS {% endblock %}
+
+
+{% block content %}
+<div class="container w-75 mb-3">      
+  <div class="row mx-auto">
+    <div class="col-md-2">
+    </div>
+    <h4 class="font-weight-bold text-center mt-4 mb-4 center" >Atualizar Registro de Participação em Instâncias do SUAS</h4>
+      
+    <div class="card-body"> 
+      <form method="post" >
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-12">
+                  {{form_table_interset.espaco_participacao|as_crispy_field}}
+              </div>
+              <div class="col-md-6">
+                {{form_table_interset.data_inicial|as_crispy_field}}
+            </div>
+              <div class="col-md-6">
+                  {{ form_table_interset.data_final|as_crispy_field}}
+              </div>
+              <div class="col-md-6">
+                  {{ form_table_interset.descricao|as_crispy_field}}
+              </div>
+              
+              <div class="col-md-6">
+                  {{ form_table_interset.encaminhamentos|as_crispy_field}}
+              </div>
+          
+      
+            <div class="container">
+                <div class="row md-4">
+                    <div class="col text-center mt-3">
+                        <button type="submit" class="btn btn-success btn-md text-center">Registrar</button>
+                    </div>
+                </div>
+              </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
