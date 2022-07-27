@@ -55,3 +55,7 @@ class TableIntersetModel(models.Model):
     descricao = models.TextField('Descrição', max_length=1000,null=False, default='')
     encaminhamentos = models.TextField('Encaminhamentos', max_length=1000,null=True, default='')
 
+
+class ActionTypeModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tipoAcoes')
+    acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE, default= 'Apoio Técnico Presencial (ATP)')

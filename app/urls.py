@@ -18,4 +18,6 @@ urlpatterns = [
     path('atualizar-tabela-acao/<id>', view=table_action_update, name="tableActionUpdate"),
     path('atualizar-tabela-intersetorial/<id>', view=table_interset_update, name="tableIntersetUpdate"),
     path('atualizar-tabela-eventos/<id>', view=table_event_update, name="tableEventUpdate"),
+    path('formulario-de-acao-atp', view=action_type, name="action_type"),
+    path('tipo_acao', view=action_type, name="action_type")
 ]

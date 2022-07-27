@@ -5,15 +5,17 @@ from django.shortcuts import render
 from secrets import choice
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,  logout
+from django.contrib import messages
 
 from app.models import User
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from .decorators import check_user_is_authenticated, user_required
-from django.core.paginator import Paginator
-# Create your views here.
 
+
+
+#### REGISTRO DE USURIOS ---------------------------------------------------------------------
 @check_user_is_authenticated
 def register_user(request):
     if request.method == 'POST':
@@ -25,9 +27,14 @@ def register_user(request):
         form = RegisterEmployee()
     return render(request, 'app/register.html', {'form':form})
 
-
+##### LOGIN / LOGOUT-----------------------------------------------------------------------------------------
 def login_user(request):
     return render(request, 'app/registration/login.html')
+
+def logout_request(request):
+	logout(request)
+	messages.info(request, "You have successfully logged out.") 
+	return redirect("/users/contas/login/")
 
 
 #### REGISTRA O FORMULARIO DE EVENTOS -------------------------------------------------------------------------
@@ -57,10 +64,37 @@ def table_action(request):
             profile.user = request.user
             profile.save()
             form_table_action.save()
+            # print(request.POST.get('acao_realizada'))
             return redirect('/users/formulario-de-acao')
     else:
         form_table_action = TableActionForm()
     return render(request, 'app/tables/tableAction/tableActionRegister.html', {'form_table_action':form_table_action})
+
+
+#### TESTANDO TIPO DE AÇÕES S -------------------------------------------------------------------------
+@login_required(login_url='contas/login')
+@user_required
+def action_type(request):
+    if request.method == 'POST':
+        form_action_type = ActionTypeForm(request.POST)
+        if form_action_type.is_valid():
+            profile = form_action_type.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            form_action_type.save()
+            
+            choice_action = request.POST.get('acao_realizada')
+            #Se tipo foi ATP:
+            form_table_action = TableActionForm()
+            form_table_action['acao_realizada'] = choice_action
+            if choice_action == 'Apoio Técnico Presencial (ATP)':
+                return render(request, 'app/tables/tableAction/tableActionRegisterATP.html', {'form_table_action':form_table_action})
+            
+    else:
+        form_action_type = TableActionForm()
+    return render(request, 'app/tables/tableAction/tableActionRegister.html', {'form_table_action':form_action_type})
+
+
 
 
 

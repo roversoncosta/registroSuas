@@ -1,4 +1,5 @@
 from dataclasses import fields
+from distutils.command.build_scripts import first_line_re
 from pickle import LIST
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -71,6 +72,15 @@ class TableActionForm(ModelForm):
     # def __init__(self, *args, **kwargs):
     #     super(TableActionForm, self).__init__(*args, **kwargs)
     #     self.fields['n_profissionais_atendidos'].label = "Numero de Funcionarios Atendidos"
+
+
+class ActionTypeForm(ModelForm):
+    class Meta:
+        model = ActionTypeModel
+        fields = ["acao_realizada"]
+        labels = {"acao_realizada": "TIPO DA AÇÃO:"}
+
+
 
 #### FORMULARIO DE EVENTOS
 class TableEventForm(ModelForm):
