@@ -15,60 +15,58 @@
         <i class="fas fa-table me-1"></i>
         1. Ações Realizadas
     </div>
-    <div class="card-body">
-        <table id="datatablesSimple",>
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Tipo de Registro</th>
-              <th scope="col">Tecnico não Presencial</th>
-              <th scope="col">Tecnico Presencial</th>
-              <th scope="col">Outras Ações</th>
-              <th scope="col">Num. de Funcionarios</th>
-              <th scope="col">Município Atendido</th>
-              <th scope="col">Descrição</th>
-              <th scope="col">Data Ação</th>
-              <th scope="col">Deletar</th>
-              <th scope="col">Editar</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for table in table_action_page_object %}
-            <tr>
-              <td>{{table.id}}</td>
-              <td>{{table.acao_realizada}}</td>
-              <td>{{table.tecnico_nao_presencial}}</td>
-              <td>{{table.tecnico_presencial}}</td>
-              <td>{{table.outras_acoes}}</td>
-              <td>{{table.n_profissionais_atendidos}}</td>
-              <td>{{table.municipio_atendido}}</td>
+    <div class="card-body"> 
+      <table class="table mydatatable" style="width:100%" >
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Tipo de Registro</th>
+            <th scope="col">Tecnico não Presencial</th>
+            <th scope="col">Tecnico Presencial</th>
+            <th scope="col">Outras Ações</th>
+            <th scope="col">Num. de Funcionarios</th>
+            <th scope="col">Município Atendido</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Data Ação</th>
+            <th scope="col">Deletar</th>
+            <th scope="col">Editar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for table in table_action_page_object %}
+          <tr>
+            <td>{{table.id}}</td>
+            <td>{{table.acao_realizada}}</td>
+            <td>{{table.tecnico_nao_presencial}}</td>
+            <td>{{table.tecnico_presencial}}</td>
+            <td>{{table.outras_acoes}}</td>
+            <td>{{table.n_profissionais_atendidos}}</td>
+            <td>{{table.municipio_atendido}}</td>
 
-              <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
-                </a></td>
-              <td>{{table.data_acao}}</td>
-              <td>
-                <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
-                    <i class="fa-solid fa-trash"></i></button>
-                </form>
-              </td>
-              <td><a href="{% url 'tableActionUpdate' id=table.id%}">
-                  <button type="button" class="btn btn-info">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                </a>
-              </td>
-            </tr>
-            {% endfor %}
-            
-          </tbody>
-        </table>
+            <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
+              </a></td>
+            <td>{{table.data_acao|date:"d/m/y" }}</td>
+            <td>
+              <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
+                  <i class="fa-solid fa-trash"></i></button>
+              </form>
+            </td>
+            <td><a href="{% url 'tableActionUpdate' id=table.id%}">
+                <button type="button" class="btn btn-info">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
-</div>
-
-<div class="container-fluid px-4">
+  <br>
+  <br>
   <!-- TABELA DE EVENTOS ##############################################################################################################-->
   <div class="card mb-4">
     <div class="card-header">
@@ -76,13 +74,15 @@
         2. Participação em Eventos
     </div>
     <div class="card-body">
-      <table id="datatablesSimple">
+      <table class="table mydatatable" style="width:100%">
         <thead>
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Nome do Evento</th>
             <th scope="col">Tipo do Evento</th>
             <th scope="col">Intituição ofertante</th>
+            <th scope="col">Data inicial</th>
+            <th scope="col">Data final</th>
             <th scope="col">Deletar</th>
             <th scope="col">Editar</th>
           </tr>
@@ -94,6 +94,9 @@
             <td>{{table.titulo_evento}}</td>
             <td>{{table.tipo_evento}}</td>
             <td>{{table.instituicao_ofertante}}</td>
+            <td>{{table.data_inicial|date:"d/m/y" }}</td>
+            <td>{{table.data_final|date:"d/m/y" }}</td>
+            
             <td>
               <form method="post" action="{% url 'deleteTableEvent' id=table.id %}">
                 {% csrf_token %}
@@ -117,60 +120,59 @@
       </table>
     </div>
   </div>
-</div>
-
-
-<!-- TABELA DE PARTICIPAÇÃO INTERSETORIAL SUAS#############################################################################################-->
-<div class="container rounded">
-  <h2 class="text-center my-5">Registro Intersetoriais-SUAS</h2>
-  <table class="table table-stripped shadow-lg rounded" id="mytableinterset">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Espaço de participação</th>
-        <th scope="col">Data inicial</th>
-        <th scope="col">Data final</th>
-        <!-- <th scope="col">Descrição</th>
-        <th scope="col">Encaminhamentos</th> -->
-      </tr>
-    </thead>
-    <tbody>
-      {% for table in table_interset_page_object %}
-      <tr>
-        <td scope="row">{{table.id}}</td>
-        <td>{{table.espaco_participacao}}</td>
-        <td>{{table.data_inicial}}</td>
-        <td>{{table.data_final}}</td>
-        <td>
-          <form method="post" action="{% url 'deleteTableInterset' id=table.id %}">
-            {% csrf_token %}
-            <a href="{% url 'deleteTableInterset' id=table.id %}" id="delete-item">
-                <button type="submit" class="btn btn-danger">
-                  <i class="fa-solid fa-trash"></i>
+  <br>
+  <br>
+  <!-- TABELA DE PARTICIPAÇÃO INTERSETORIAL SUAS#############################################################################################-->
+  <div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        3. Participação em Instâncias Intersetoriais do SUAS
+    </div>
+    <div class="card-body">
+      <table class="table mydatatable" style="width:100%">
+        <thead >
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Espaço de participação</th>
+            <th scope="col">Data inicial</th>
+            <th scope="col">Data final</th>
+            <!-- <th scope="col">Descrição</th>
+            <th scope="col">Encaminhamentos</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for table in table_interset_page_object %}
+          <tr>
+            <td scope="row">{{table.id}}</td>
+            <td>{{table.espaco_participacao}}</td>
+            <td>{{table.data_inicial|date:"d/m/y" }}</td>
+            <td>{{table.data_final|date:"d/m/y" }}</td>
+            <td>
+              <form method="post" action="{% url 'deleteTableInterset' id=table.id %}">
+                {% csrf_token %}
+                <a href="{% url 'deleteTableInterset' id=table.id %}" id="delete-item">
+                    <button type="submit" class="btn btn-danger">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </a>
+                </form>
+            </td>
+            <td><a href="{% url 'tableIntersetUpdate' id=table.id%}">
+                <button type="button" class="btn btn-info">
+                  <i class="fas fa-edit"></i>
                 </button>
+
               </a>
-            </form>
-        </td>
-        <td><a href="{% url 'tableIntersetUpdate' id=table.id%}">
-            <button type="button" class="btn btn-info">
-              <i class="fas fa-edit"></i>
-            </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br>
+  <br>
 
-          </a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
-<div class="container">
-  <p> 
-    <br>
-    <br>
-    <br>
-    <br>
-  </p>
 </div>
 
 
@@ -194,13 +196,6 @@
 </div>
 
 
-<script>
-  $(document).ready(function () {
-    $('table.display').DataTable();
-});
-    
-   
-  </script> -->
 
 
 {% endblock %}
