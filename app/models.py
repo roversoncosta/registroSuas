@@ -16,22 +16,74 @@ class User(AbstractUser):
     def __str__(self):
         return f'{self.sector_name}'
 
-# ### TABELA DE AÇÕES
-class TableActionModel(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tabelaAcoes')
+# # ### DATABASE DE AÇÕES
+# class TableActionModel(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tabelaAcoes')
+#     acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE)
+#     caracteristica_acao = models.CharField(max_length=100, choices=TECNICO_PRESENCIAL_CHOICE, default= '')
+#     caracteristica_acao = models.CharField(max_length=100, choices=TECNICO_NAO_PRESENCIAL_CHOICE, default='')
+#     caracteristica_acao = models.CharField(max_length=100, choices=OUTRAS_ACOES_CHOICE, default= '(Não se aplica)')
+#     n_profissionais_atendidos = models.IntegerField('Numero de Funcionario',blank=False, null=False)
+#     descricao_acao = models.TextField('Descrição da Ação', max_length=1000, blank=False, null=False)
+#     data_acao = models.DateField('Data', blank=False, null=False)
+#     data_publicacao = models.DateField('Data da Publicação', default=timezone.now)
+#     municipio_atendido = models.CharField(max_length=100, choices= LISTA_MUNICIPIOS, default= '(Não se aplica)')
+
+
+#     def __str__(self):
+#         return self.user.first_name
+
+#####  ATENÇÃO: CRIAREMOS 3 TABELAS DIFERENTES PARA ATP/ATNP E OUTRAS AÇÕES.
+#####... Unica todos os nomes de capos serão iguais, porem, o campo "caracteristica_acao" possui as "choices" diferentes,
+#  baseado em cada tipo de ação realizada. isso tudo para poder concatenar com pandas depois, uma vez que todos os campos(nomes de coluna serão iguais)
+# ### DATABASE DE AÇÕES - ATP
+class AcaoAtpModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='acaoAtp')
     acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE, default= 'Apoio Técnico Presencial (ATP)')
-    tecnico_presencial = models.CharField(max_length=100, choices=TECNICO_PRESENCIAL_CHOICE, default= '(Não se aplica)')
-    tecnico_nao_presencial = models.CharField(max_length=100, choices=TECNICO_NAO_PRESENCIAL_CHOICE, default='(Não se aplica)')
-    outras_acoes = models.CharField(max_length=100, choices=OUTRAS_ACOES_CHOICE, default= '(Não se aplica)')
+    caracteristica_acao = models.CharField(max_length=100, choices=TECNICO_PRESENCIAL_CHOICE, default= '')
     n_profissionais_atendidos = models.IntegerField('Numero de Funcionario',blank=False, null=False)
     descricao_acao = models.TextField('Descrição da Ação', max_length=1000, blank=False, null=False)
     data_acao = models.DateField('Data', blank=False, null=False)
     data_publicacao = models.DateField('Data da Publicação', default=timezone.now)
-    municipio_atendido = models.CharField(max_length=100, choices= LISTA_MUNICIPIOS, default= '(Não se aplica)')
-
+    municipio_atendido = models.CharField(max_length=100, choices= LISTA_MUNICIPIOS, default= '')
 
     def __str__(self):
         return self.user.first_name
+
+# ### DATABASE DE AÇÕES - ATNP
+class AcaoAtnpModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='acaoAtnp')
+    acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE, default= 'Apoio Técnico Não Presencial (ATNP)')
+    caracteristica_acao = models.CharField(max_length=100, choices=TECNICO_NAO_PRESENCIAL_CHOICE, default='')
+    n_profissionais_atendidos = models.IntegerField('Numero de Funcionario',blank=False, null=False)
+    descricao_acao = models.TextField('Descrição da Ação', max_length=1000, blank=False, null=False)
+    data_acao = models.DateField('Data', blank=False, null=False)
+    data_publicacao = models.DateField('Data da Publicação', default=timezone.now)
+    municipio_atendido = models.CharField(max_length=100, choices= LISTA_MUNICIPIOS, default= '')
+
+    def __str__(self):
+        return self.user.first_name
+
+# ### DATABASE DE AÇÕES - Outras ações
+class AcaoOutrasModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='acaoOutras')
+    acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE, default= 'Outras Ações')
+    caracteristica_acao = models.CharField(max_length=100, choices=OUTRAS_ACOES_CHOICE, default= '')
+    n_profissionais_atendidos = models.IntegerField('Numero de Funcionario',blank=False, null=False)
+    descricao_acao = models.TextField('Descrição da Ação', max_length=1000, blank=False, null=False)
+    data_acao = models.DateField('Data', blank=False, null=False)
+    data_publicacao = models.DateField('Data da Publicação', default=timezone.now)
+    municipio_atendido = models.CharField(max_length=100, choices= LISTA_MUNICIPIOS, default='')
+
+    def __str__(self):
+        return self.user.first_name
+
+
+
+
+
+
+
 
 ### TABELA DE EVENTOS
 class TableEventModel(models.Model):
@@ -58,4 +110,4 @@ class TableIntersetModel(models.Model):
 
 class ActionTypeModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tipoAcoes')
-    acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE, default= 'Apoio Técnico Presencial (ATP)')
+    acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE, default= '')

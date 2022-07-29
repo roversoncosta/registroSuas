@@ -20,8 +20,8 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     ### theme templates
-    path('', views.index),
-    path('tables/', views.tables),
+    path('', views.main),
+    # path('tables/', views.tables),
     path('register/', views.register),
     path('login/', views.login),
     path("logout", views.logout_request, name= "logout"),### new

@@ -27,7 +27,6 @@ TECNICO_PRESENCIAL_CHOICE = (
     ('Monitoramento com periodicidade mínima anual', 'Monitoramento com periodicidade mínima anual'),
     ('Seminários e/ou Oficinas', 'Seminários e/ou Oficinas'),
     ('Visitas técnicas', 'Visitas técnicas'),
-    ('(Não se aplica)', '(Não se aplica)'),
 )
 
 TECNICO_NAO_PRESENCIAL_CHOICE = (

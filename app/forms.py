@@ -48,30 +48,76 @@ class RegisterEmployee(UserCreationForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control my-1'
 
-### FORMULARIO DE AÇÕES
-class TableActionForm(ModelForm):
-    class Meta:
-        model = TableActionModel
-        fields = ['acao_realizada', 'tecnico_presencial', 'tecnico_nao_presencial',
-        'outras_acoes', 'n_profissionais_atendidos', 'descricao_acao', 'data_acao','municipio_atendido']
-        labels = {
-                    "acao_realizada": "TIPO DA AÇÃO:",
-                    "tecnico_presencial": "Apoio Técnico Presencial:",
-                    "tecnico_nao_presencial": "Apoio Técnico Não Presencial:",
-                    "outras_acoes": "Outras Ações:",
-                    "n_profissionais_atendidos": "Nº de Profissionais atendidos:",
-                    "descricao_acao":"Descreva brevemente o tipo de demanda atendida:",
-                    "data_acao":"Data da ação realizada:",
-                    "municipio_atendido":"Município Atendido"
+# ### FORMULARIO DE AÇÕES
+# class TableActionForm(ModelForm):
+#     class Meta:
+#         model = TableActionModel
+#         fields = ['acao_realizada', 'caracteristica_acao', 'caracteristica_acao',
+#         'caracteristica_acao', 'n_profissionais_atendidos', 'descricao_acao', 'data_acao','municipio_atendido']
+#         labels = {  "acao_realizada": "TIPO DA AÇÃO:",
+#                     "caracteristica_acao": "Apoio Técnico Presencial:",
+#                     "caracteristica_acao": "Apoio Técnico Não Presencial:",
+#                     "caracteristica_acao": "Outras Ações:",
+#                     "n_profissionais_atendidos": "Nº de Profissionais atendidos:",
+#                     "descricao_acao":"Descreva brevemente o tipo de demanda atendida:",
+#                     "data_acao":"Data da ação realizada:",
+#                     "municipio_atendido":"Município Atendido" }
 
-                    }
-
-        widgets = {
-            'data_acao': forms.DateInput(attrs={'type':'date'}),
-        }
+#         widgets = {'data_acao': forms.DateInput(attrs={'type':'date'}),
+#                    'acao_realizada':forms.TextInput(attrs={'readonly':'readonly'})   }
     # def __init__(self, *args, **kwargs):
     #     super(TableActionForm, self).__init__(*args, **kwargs)
     #     self.fields['n_profissionais_atendidos'].label = "Numero de Funcionarios Atendidos"
+
+
+### FORMULARIO DE AÇÕES - ATP
+class AcaoAtpForm(ModelForm):
+    class Meta:
+        model = AcaoAtpModel
+        fields = ['acao_realizada', 'caracteristica_acao', 'n_profissionais_atendidos', 'descricao_acao', 'data_acao','municipio_atendido']
+        labels = {  "acao_realizada": "Tipo da ação",
+                    "caracteristica_acao": "Característica de ATP",
+                    "n_profissionais_atendidos": "Nº de Profissionais atendidos ('0' se nenhum)",
+                    "descricao_acao":"Descreva brevemente o tipo de demanda atendida:",
+                    "data_acao":"Data da ação realizada",
+                    "municipio_atendido":"Município Atendido" }
+        widgets = {'data_acao': forms.DateInput(attrs={'type':'date'}),
+                   'acao_realizada':forms.TextInput(attrs={'readonly':'readonly'})  }
+
+### FORMULARIO DE AÇÕES - ATNP
+class AcaoAtnpForm(ModelForm):
+    class Meta:
+        model = AcaoAtnpModel
+        fields = ['acao_realizada', 'caracteristica_acao','n_profissionais_atendidos', 'descricao_acao', 'data_acao','municipio_atendido']
+        labels = {  "acao_realizada": "Tipo da ação",
+                    "caracteristica_acao": "Apoio Técnico Não Presencial:",
+                    "n_profissionais_atendidos": "Nº de Profissionais atendidos ('0' se nenhum)",
+                    "descricao_acao":"Descreva brevemente o tipo de demanda atendida:",
+                    "data_acao":"Data da ação realizada:",
+                    "municipio_atendido":"Município Atendido" }
+
+        widgets = {'data_acao': forms.DateInput(attrs={'type':'date'}),
+                   'acao_realizada':forms.TextInput(attrs={'readonly':'readonly'}) }
+
+
+### FORMULARIO DE AÇÕES - OUTRAS
+class AcaoOutrasForm(ModelForm):
+    class Meta:
+        model = AcaoOutrasModel
+        fields = ['acao_realizada', 'caracteristica_acao', 'n_profissionais_atendidos', 'descricao_acao', 'data_acao','municipio_atendido']
+        labels = {  "acao_realizada": "Tipo da ação",
+                    "caracteristica_acao": "Apoio Técnico Presencial:",
+                    "caracteristica_acao": "Apoio Técnico Não Presencial:",
+                    "caracteristica_acao": "Outras Ações:",
+                    "n_profissionais_atendidos": "Nº de Profissionais atendidos ('0' se nenhum)",
+                    "descricao_acao":"Descreva brevemente o tipo de demanda atendida:",
+                    "data_acao":"Data da ação realizada:",
+                    "municipio_atendido":"Município Atendido" }
+
+        widgets = {'data_acao': forms.DateInput(attrs={'type':'date'}),
+                   'acao_realizada':forms.TextInput(attrs={'readonly':'readonly'})   }
+
+
 
 
 class ActionTypeForm(ModelForm):

@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'app/index.html' %}
 {% load static%}
 {% block title %} 📋 Tabelas {% endblock %}
 {% block content %}
@@ -35,9 +35,9 @@
       <tr>
         <td>{{table.id}}</td>
         <td>{{table.acao_realizada}}</td>
-        <td>{{table.tecnico_nao_presencial}}</td>
-        <td>{{table.tecnico_presencial}}</td>
-        <td>{{table.outras_acoes}}</td>
+        <td>{{table.caracteristica_acao}}</td>
+        <td>{{table.caracteristica_acao}}</td>
+        <td>{{table.caracteristica_acao}}</td>
         <td>{{table.numbers_employee}}</td>
         <td>{{table.municipio_atendido}}</td>
 

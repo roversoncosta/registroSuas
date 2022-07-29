@@ -1,4 +1,4 @@
-{% extends 'app/index_users.html' %}
+{% extends 'app/index.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
 
@@ -23,13 +23,13 @@
               <div class="col-md-4">
                 
 
-                {{ form_table_action.tecnico_presencial|as_crispy_field }}
+                {{ form_table_action.caracteristica_acao|as_crispy_field }}
               </div>
               <div class="col-md-4">
-                {{ form_table_action.tecnico_nao_presencial|as_crispy_field }}
+                {{ form_table_action.caracteristica_acao|as_crispy_field }}
               </div>
               <div class="col-md-4">
-                {{ form_table_action.outras_acoes|as_crispy_field }}
+                {{ form_table_action.caracteristica_acao|as_crispy_field }}
               </div>
               
               <div class="col-md-4">

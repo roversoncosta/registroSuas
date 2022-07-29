@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-
 # Create your views here.
 from secrets import choice
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,10 +7,12 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login,  logout
 from django.contrib import messages
 
-from app.models import User
+from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from .decorators import check_user_is_authenticated, user_required
+
+import pandas as pd
 
 
 
@@ -53,46 +54,118 @@ def table_event(request):
     return render(request, 'app/tables/tableEvent/tableEventRegister.html', {'form_table_event':form_table_event})
 
 
-#### REGISTRA O FORMULARIO DE ACOES -------------------------------------------------------------------------
+# #### REGISTRA O FORMULARIO DE ACOES -------------------------------------------------------------------------
+# @login_required(login_url='contas/login')
+# @user_required
+# def table_action(request, initial):
+#     if request.method == 'POST':
+#         form_table_action = TableActionForm(request.POST or None, initial={'acao_realizada':initial})
+#         if form_table_action.is_valid():
+#             profile = form_table_action.save(commit=False)
+#             profile.user = request.user
+#             profile.save()
+#             form_table_action.save()
+#             # print(request.POST.get('acao_realizada'))
+#             return redirect('/users/formulario-de-acao')
+#     else:
+#         form_table_action = TableActionForm()
+#     return render(request, 'app/tables/tableAction/tableActionRegister.html', {'form_table_action':form_table_action})
+
+
+
+#### REGISTRA NO FORMULARIO DE ACOES - APOIO TÉCNICO PRESENCIAL - ATP -------------------------------------------------------------------------
 @login_required(login_url='contas/login')
 @user_required
-def table_action(request):
+def getAcaoAtp(request):
     if request.method == 'POST':
-        form_table_action = TableActionForm(request.POST)
-        if form_table_action.is_valid():
-            profile = form_table_action.save(commit=False)
+        formAtp = AcaoAtpForm(request.POST)
+        if formAtp.is_valid():
+            profile = formAtp.save(commit=False)
             profile.user = request.user
             profile.save()
-            form_table_action.save()
+            formAtp.save()
             # print(request.POST.get('acao_realizada'))
-            return redirect('/users/formulario-de-acao')
+            return redirect('/users/formulario-de-acao-atp')
     else:
-        form_table_action = TableActionForm()
-    return render(request, 'app/tables/tableAction/tableActionRegister.html', {'form_table_action':form_table_action})
+        formAtp = AcaoAtpForm()
+    return render(request, 'app/tables/tableAction/tableActionRegisterAtp.html', {'formAtp':formAtp})
 
-
-#### TESTANDO TIPO DE AÇÕES S -------------------------------------------------------------------------
+#### REGISTRA NO FORMULARIO DE ACOES - APOIO TÉCNICO NÃO PRESENCIAL - ATNP -------------------------------------------------------------------------
 @login_required(login_url='contas/login')
 @user_required
-def action_type(request):
+def getAcaoAtnp(request):
     if request.method == 'POST':
-        form_action_type = ActionTypeForm(request.POST)
-        if form_action_type.is_valid():
-            profile = form_action_type.save(commit=False)
+        formAtnp = AcaoAtnpForm(request.POST)
+        if formAtnp.is_valid():
+            profile = formAtnp.save(commit=False)
             profile.user = request.user
             profile.save()
-            form_action_type.save()
-            
-            choice_action = request.POST.get('acao_realizada')
-            #Se tipo foi ATP:
-            form_table_action = TableActionForm()
-            form_table_action['acao_realizada'] = choice_action
-            if choice_action == 'Apoio Técnico Presencial (ATP)':
-                return render(request, 'app/tables/tableAction/tableActionRegisterATP.html', {'form_table_action':form_table_action})
-            
+            formAtnp.save()
+            # print(request.POST.get('acao_realizada'))
+            return redirect('/users/formulario-de-acao-atnp')
     else:
-        form_action_type = TableActionForm()
-    return render(request, 'app/tables/tableAction/tableActionRegister.html', {'form_table_action':form_action_type})
+        formAtnp = AcaoAtnpForm()
+    return render(request, 'app/tables/tableAction/tableActionRegisterAtnp.html', {'formAtnp':formAtnp})
+
+
+#### REGISTRA NO FORMULARIO DE ACOES - APOIO TÉCNICO - OUTRAS AÇÕES -------------------------------------------------------------------------
+@login_required(login_url='contas/login')
+@user_required
+def getAcaoOutras(request):
+    if request.method == 'POST':
+        formOutras = AcaoOutrasForm(request.POST)
+        if formOutras.is_valid():
+            profile = formOutras.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            formOutras.save()
+            # print(request.POST.get('acao_realizada'))
+            return redirect('/users/formulario-de-acao-outras')
+    else:
+        formOutras = AcaoOutrasForm()
+    return render(request, 'app/tables/tableAction/tableActionRegisterOutras.html', {'formOutras':formOutras})
+
+
+
+
+
+
+
+
+# #### TESTANDO TIPO DE AÇÕES S -------------------------------------------------------------------------
+# @login_required(login_url='contas/login')
+# @user_required
+# def action_type(request):
+#     if request.method == 'POST':
+#         #Seleciona o tipo da ação
+#         form_action_type = ActionTypeForm(request.POST)
+#         if form_action_type.is_valid():
+#             choice_action = request.POST.get('acao_realizada')
+#             # Tipo: ATP
+#             if choice_action == 'Apoio Técnico Presencial (ATP)':
+#                 initial = 'Apoio Técnico Presencial (ATP)'
+#                 table_action(request, initial)
+#                 # return redirect('/users/formulario-de-acao')
+#             form_table_action = TableActionForm()
+#             return render(request, 'app/tables/tableAction/tableActionRegisterATP.html', {'form_action_type':form_action_type,
+#                                                                                             'form_table_action':form_table_action,
+#                                                                                             'choice_action':choice_action,
+#                                                                                              })           
+#     else:
+#         form_action_type = ActionTypeForm()
+#     return render(request, 'app/tables/tableAction/actionType.html', {'form_action_type':form_action_type})
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -148,13 +221,19 @@ def table_interset_update(request, id):
 @login_required(login_url='contas/login')
 @user_required
 def tables(request):
-    table_action_page_object = TableActionModel.objects.filter(user=request.user).values().order_by('-id')
+    table_action_atp_page_object = AcaoAtpModel.objects.filter(user=request.user).values().order_by('-id')
+    table_action_atnp_page_object = AcaoAtnpModel.objects.filter(user=request.user).values().order_by('-id')
+    table_action_outras_page_object = AcaoOutrasModel.objects.filter(user=request.user).values().order_by('-id')
     table_event_page_object = TableEventModel.objects.filter(user=request.user).values().order_by('-id')
     table_interset_page_object = TableIntersetModel.objects.filter(user=request.user).values().order_by('-id')
+    ### pandas DF 
+    df = pd.DataFrame(list(AcaoAtpModel.objects.all().values()))
 
     return render(request, 'app/tables/viewAllTable.html',
     {
-    'table_action_page_object':table_action_page_object,
+    'table_action_atp_page_object':table_action_atp_page_object,
+    'table_action_atnp_page_object':table_action_atnp_page_object,
+    'table_action_outras_page_object':table_action_outras_page_object,
     'table_event_page_object':table_event_page_object,
     'table_interset_page_object':table_interset_page_object,
     
@@ -228,8 +307,8 @@ def table_event_update(request, id):
 
 
 
-def index_users(request):
-    return render(request, 'app/index_users.html')
+def main(request):
+    return render(request, 'app/main.html')
 
 
 def index(request):
@@ -254,3 +333,9 @@ def charts(request):
 
 def password(request):
     return render(request, 'app/password.html')
+
+
+
+
+df = pd.DataFrame(list(AcaoAtpModel.objects.all().values()))
+print(df)

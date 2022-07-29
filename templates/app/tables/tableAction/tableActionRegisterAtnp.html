@@ -12,7 +12,7 @@
     </div>
     <h6 class="font-weight-bold text-center mt-4 mb-4 center" >Registro de Ações Realizadas </h6>
     <div class="rounded" style="background-color:#9bddb8 ;">
-      <h3 class="text-center mt-4 mb-4 center" >Apoio Técnico Presencial - ATP</h3>
+      <h3 class="text-center mt-4 mb-4 center" >Apoio Técnico Não Presencial - ATNP</h3>
       </div>
       
   
@@ -21,27 +21,27 @@
           {% csrf_token %}
             <div class="row">
               <div class="col-md-12" >
-                {{formAtp.acao_realizada|as_crispy_field }} 
+                {{formAtnp.acao_realizada|as_crispy_field }} 
               </div>
               <div class="col-md-6">
-                {{ formAtp.caracteristica_acao|as_crispy_field }}
-              </div>
-
-              <div class="col-md-6">
-                {{ formAtp.municipio_atendido|as_crispy_field }}
-              </div>
-              <div class="col-md-6">
-                {{ formAtp.n_profissionais_atendidos|as_crispy_field }}
+                {{ formAtnp.caracteristica_acao|as_crispy_field }}
               </div>
 
               <div class="col-md-6">
-                {{ formAtp.data_acao|as_crispy_field }}
+                {{ formAtnp.municipio_atendido|as_crispy_field }}
+              </div>
+              <div class="col-md-6">
+                {{ formAtnp.n_profissionais_atendidos|as_crispy_field }}
+              </div>
+
+              <div class="col-md-6">
+                {{ formAtnp.data_acao|as_crispy_field }}
               </div>
               
               
             </div>
             <div class="mx-auto">
-                {{ formAtp.descricao_acao|as_crispy_field }}
+                {{ formAtnp.descricao_acao|as_crispy_field }}
             </div>
 
             <div class="container">
