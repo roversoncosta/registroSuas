@@ -1,3 +1,4 @@
+from pickle import FALSE
 from django.shortcuts import render
 
 # Create your views here.
@@ -13,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from .decorators import check_user_is_authenticated, user_required
 
 import pandas as pd
+import json
 
 
 
@@ -226,8 +228,20 @@ def tables(request):
     table_action_outras_page_object = AcaoOutrasModel.objects.filter(user=request.user).values().order_by('-id')
     table_event_page_object = TableEventModel.objects.filter(user=request.user).values().order_by('-id')
     table_interset_page_object = TableIntersetModel.objects.filter(user=request.user).values().order_by('-id')
-    ### pandas DF 
-    df = pd.DataFrame(list(AcaoAtpModel.objects.all().values()))
+    ### usar pandas para concatenar as 3 tabalas em uma so. 
+    df_atp = pd.DataFrame(list(AcaoAtpModel.objects.all().values()))
+    df_atnp = pd.DataFrame(list(AcaoAtnpModel.objects.all().values()))
+    df_outras = pd.DataFrame(list(AcaoOutrasModel.objects.all().values()))
+    df = pd.concat([df_atp,df_atnp,df_outras]).drop(columns=['user_id'])
+    df['data_acao'] = pd.to_datetime(df['data_acao']).dt.strftime('%d-%m-%y')
+    df = df.sort_values(by='data_acao', ascending=False)
+    print(df['data_acao'])
+    # transformando dataframe em json para rodar com bootstrap
+    json_records = df.reset_index().to_json(orient ='records')
+    data_json = []
+    data_json = json.loads(json_records)
+    print(data_json)
+    # context = {'d': data}
 
     return render(request, 'app/tables/viewAllTable.html',
     {
@@ -236,7 +250,8 @@ def tables(request):
     'table_action_outras_page_object':table_action_outras_page_object,
     'table_event_page_object':table_event_page_object,
     'table_interset_page_object':table_interset_page_object,
-    
+    # 'df': df.to_html(index=False),    
+    'data_json':data_json
     })
 
 
@@ -335,7 +350,3 @@ def password(request):
     return render(request, 'app/password.html')
 
 
-
-
-df = pd.DataFrame(list(AcaoAtpModel.objects.all().values()))
-print(df)
