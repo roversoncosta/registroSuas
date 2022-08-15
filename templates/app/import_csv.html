@@ -1,0 +1,20 @@
+{% extends 'app/index.html' %}
+{% load static%}
+{% block title %} 📋 Tabelas {% endblock %}
+{% block content %}
+
+<div class="container-fluid px-4">
+    {% extends 'base.html' %}
+    {% block content %}
+    <h1>IMPORT CSV TESTE</h1>
+    <br>
+    {% for film in list_csv %}
+      <li>{{list_csv.id}} ({{list_csv.acao_realizada}}, ttttt: "{{list_csv.data_acao}}")</li>
+    {% endfor %}
+    </ul>
+    {% endblock  %}
+</div>
+
+
+
+{% endblock %}

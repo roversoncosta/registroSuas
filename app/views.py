@@ -17,7 +17,6 @@ import pandas as pd
 import json
 
 
-
 #### REGISTRO DE USURIOS ---------------------------------------------------------------------
 @check_user_is_authenticated
 def register_user(request):
@@ -54,26 +53,6 @@ def table_event(request):
     else:
         form_table_event = TableEventForm()
     return render(request, 'app/tables/tableEvent/tableEventRegister.html', {'form_table_event':form_table_event})
-
-
-# #### REGISTRA O FORMULARIO DE ACOES -------------------------------------------------------------------------
-# @login_required(login_url='contas/login')
-# @user_required
-# def table_action(request, initial):
-#     if request.method == 'POST':
-#         form_table_action = TableActionForm(request.POST or None, initial={'acao_realizada':initial})
-#         if form_table_action.is_valid():
-#             profile = form_table_action.save(commit=False)
-#             profile.user = request.user
-#             profile.save()
-#             form_table_action.save()
-#             # print(request.POST.get('acao_realizada'))
-#             return redirect('/users/formulario-de-acao')
-#     else:
-#         form_table_action = TableActionForm()
-#     return render(request, 'app/tables/tableAction/tableActionRegister.html', {'form_table_action':form_table_action})
-
-
 
 #### REGISTRA NO FORMULARIO DE ACOES - APOIO TÉCNICO PRESENCIAL - ATP -------------------------------------------------------------------------
 @login_required(login_url='contas/login')
@@ -126,50 +105,6 @@ def getAcaoOutras(request):
     else:
         formOutras = AcaoOutrasForm()
     return render(request, 'app/tables/tableAction/tableActionRegisterOutras.html', {'formOutras':formOutras})
-
-
-
-
-
-
-
-
-# #### TESTANDO TIPO DE AÇÕES S -------------------------------------------------------------------------
-# @login_required(login_url='contas/login')
-# @user_required
-# def action_type(request):
-#     if request.method == 'POST':
-#         #Seleciona o tipo da ação
-#         form_action_type = ActionTypeForm(request.POST)
-#         if form_action_type.is_valid():
-#             choice_action = request.POST.get('acao_realizada')
-#             # Tipo: ATP
-#             if choice_action == 'Apoio Técnico Presencial (ATP)':
-#                 initial = 'Apoio Técnico Presencial (ATP)'
-#                 table_action(request, initial)
-#                 # return redirect('/users/formulario-de-acao')
-#             form_table_action = TableActionForm()
-#             return render(request, 'app/tables/tableAction/tableActionRegisterATP.html', {'form_action_type':form_action_type,
-#                                                                                             'form_table_action':form_table_action,
-#                                                                                             'choice_action':choice_action,
-#                                                                                              })           
-#     else:
-#         form_action_type = ActionTypeForm()
-#     return render(request, 'app/tables/tableAction/actionType.html', {'form_action_type':form_action_type})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -235,19 +170,19 @@ def tables(request):
     df = pd.concat([df_atp,df_atnp,df_outras]).drop(columns=['user_id'])
     df['data_acao'] = pd.to_datetime(df['data_acao']).dt.strftime('%d-%m-%y')
     df = df.sort_values(by='data_acao', ascending=False)
-    print(df['data_acao'])
+    # print(df['data_acao'])
     # transformando dataframe em json para rodar com bootstrap
     json_records = df.reset_index().to_json(orient ='records')
     data_json = []
     data_json = json.loads(json_records)
-    print(data_json)
+    # print(data_json)
     # context = {'d': data}
 
     return render(request, 'app/tables/viewAllTable.html',
     {
-    'table_action_atp_page_object':table_action_atp_page_object,
-    'table_action_atnp_page_object':table_action_atnp_page_object,
-    'table_action_outras_page_object':table_action_outras_page_object,
+    # 'table_action_atp_page_object':table_action_atp_page_object,
+    # 'table_action_atnp_page_object':table_action_atnp_page_object,
+    # 'table_action_outras_page_object':table_action_outras_page_object,
     'table_event_page_object':table_event_page_object,
     'table_interset_page_object':table_interset_page_object,
     # 'df': df.to_html(index=False),    
@@ -318,6 +253,7 @@ def table_event_update(request, id):
         return redirect('/users/tabelas')
     context = {'form_table_event':form}
     return render(request, 'tables/tableEvent/tableEventUpdate.html', context=context)
+
 
 
 

@@ -11,56 +11,57 @@
 
 
   <!-- testando tabela de acoes concatenada e em formado json para pegar bootstrap config -->
-<!-- TABELA DE AÇÕES - ATP ###########################################################################################################-->
-<div class="card mb-4">
-  <div class="card-header">
-      <i class="fas fa-table me-1"></i>
-      0. TABELA CONCATENADA
-  </div>
-  <div class="card-body"> 
-    <table class="table mydatatable" style="width:100%" >
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Tipo de Registro</th>
-          <th scope="col">Tecnico Presencial</th>
-          <th scope="col">Num. de Funcionarios</th>
-          <th scope="col">Município Atendido</th>
-          <th scope="col">Descrição</th>
-          <th scope="col">Data Ação</th>
-          <th scope="col">Deletar</th>
-          <th scope="col">Editar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for table in data_json %}
-        <tr>
-          <td>{{table.id}}</td>
-          <td>{{table.acao_realizada}}</td>
-          <td>{{table.caracteristica_acao}}</td>
-          <td>{{table.n_profissionais_atendidos}}</td>
-          <td>{{table.municipio_atendido}}</td>
+  <!-- TABELA DE AÇÕES - ATP + ATNP + OUTRAS AÇÕES CONCATENADAS (FUNÇÃO INSERIDA NA VIEWS #################################################-->
+  <div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        1. Ações Realizadas
+    </div>
+    <div class="card-body"> 
+      <table class="table mydatatable" style="width:100%" >
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Ação Realizada</th>
+            <th scope="col">Caract. Ação</th>
+            <th scope="col">Num. de Funcionarios</th>
+            <th scope="col">Município Atendido</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Data Ação</th>
+            <th scope="col">Deletar</th>
+            <th scope="col">Editar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for table in data_json %}
+          <tr>
+            <td>{{table.id}}</td>
+            <td>{{table.acao_realizada}}</td>
+            <td>{{table.caracteristica_acao}}</td>
+            <td>{{table.n_profissionais_atendidos}}</td>
+            <td>{{table.municipio_atendido}}</td>
 
-          <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
-            </a></td>
-          <td>{{table.data_acao }}</td>
-          <td>
-            <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
-                <i class="fa-solid fa-trash"></i></button>
-            </form>
-          </td>
-          <td><a href="{% url 'tableActionUpdate' id=table.id%}">
-              <button type="button" class="btn btn-info">
-                <i class="fas fa-edit"></i>
-              </button>
-            </a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+            <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
+              </a></td>
+            <td>{{table.data_acao }}</td>
+            <td>
+              <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
+                  <i class="fa-solid fa-trash"></i></button>
+              </form>
+            </td>
+            <td><a href="{% url 'tableActionUpdate' id=table.id%}">
+                <button type="button" class="btn btn-info">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -72,11 +73,8 @@
 
 
 
-
-
-
   <!-- TABELA DE AÇÕES - ATP ###########################################################################################################-->
-  <div class="card mb-4">
+  <!-- <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
         1.1. Apoio Técnico Presencial - ATP
@@ -126,67 +124,65 @@
         </tbody>
       </table>
     </div>
-  </div>
-  <br>
-  <br>
+  </div> -->
 
-<!-- TABELA DE AÇÕES - ATNP ###########################################################################################################-->
-<div class="card mb-4">
-  <div class="card-header">
-      <i class="fas fa-table me-1"></i>
-      1.2. Apoio Técnico Presencial - ATNP
-  </div>
-  <div class="card-body"> 
-    <table class="table mydatatable" style="width:100%" >
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Tipo de Registro</th>
-          <th scope="col">Tecnico Presencial</th>
-          <th scope="col">Num. de Funcionarios</th>
-          <th scope="col">Município Atendido</th>
-          <th scope="col">Descrição</th>
-          <th scope="col">Data Ação</th>
-          <th scope="col">Deletar</th>
-          <th scope="col">Editar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for table in table_action_atnp_page_object %}
-        <tr>
-          <td>{{table.id}}</td>
-          <td>{{table.acao_realizada}}</td>
-          <td>{{table.caracteristica_acao}}</td>
-          <td>{{table.n_profissionais_atendidos}}</td>
-          <td>{{table.municipio_atendido}}</td>
 
-          <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
-            </a></td>
-          <td>{{table.data_acao|date:"d/m/y" }}</td>
-          <td>
-            <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
-                <i class="fa-solid fa-trash"></i></button>
-            </form>
-          </td>
-          <td><a href="{% url 'tableActionUpdate' id=table.id%}">
-              <button type="button" class="btn btn-info">
-                <i class="fas fa-edit"></i>
-              </button>
-            </a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-<br>
-<br>
+  <!-- TABELA DE AÇÕES - ATNP ###########################################################################################################-->
+  <!-- <div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        1.2. Apoio Técnico Presencial - ATNP
+    </div>
+    <div class="card-body"> 
+      <table class="table mydatatable" style="width:100%" >
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Tipo de Registro</th>
+            <th scope="col">Tecnico Presencial</th>
+            <th scope="col">Num. de Funcionarios</th>
+            <th scope="col">Município Atendido</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Data Ação</th>
+            <th scope="col">Deletar</th>
+            <th scope="col">Editar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for table in table_action_atnp_page_object %}
+          <tr>
+            <td>{{table.id}}</td>
+            <td>{{table.acao_realizada}}</td>
+            <td>{{table.caracteristica_acao}}</td>
+            <td>{{table.n_profissionais_atendidos}}</td>
+            <td>{{table.municipio_atendido}}</td>
 
-<!-- TABELA DE AÇÕES - OUTRAS AÇÕES ###########################################################################################################-->
-<div class="card mb-4">
+            <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
+              </a></td>
+            <td>{{table.data_acao|date:"d/m/y" }}</td>
+            <td>
+              <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
+                  <i class="fa-solid fa-trash"></i></button>
+              </form>
+            </td>
+            <td><a href="{% url 'tableActionUpdate' id=table.id%}">
+                <button type="button" class="btn btn-info">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div> -->
+
+
+  <!-- TABELA DE AÇÕES - OUTRAS AÇÕES ###########################################################################################################-->
+  <!-- <div class="card mb-4">
   <div class="card-header">
       <i class="fas fa-table me-1"></i>
       1.3. Apoio Técnico Presencial - Outras Ações
@@ -238,7 +234,8 @@
   </div>
 </div>
 <br>
-<br>
+<br> -->
+  <br><br>
 
 <div class="container-fluid px-4">
   <h1 class="mt-4">EVENTOS</h1>
@@ -299,16 +296,15 @@
       </table>
     </div>
   </div>
-  <br>
-  <br>
+</div>
+<br>
+<br>
 
-  <div class="container-fluid px-4">
-    <h1 class="mt-4">PARTICIPAÇÃO EM INSTÂNCIA INTERSETORIAIS DO SUAS</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Base dados dos registros realizados</li>
-    </ol>
-
-
+<div class="container-fluid px-4">
+  <h1 class="mt-4">PARTICIPAÇÃO EM INSTÂNCIA INTERSETORIAIS DO SUAS</h1>
+  <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Base dados dos registros realizados</li>
+  </ol>
   <!-- TABELA DE PARTICIPAÇÃO INTERSETORIAL SUAS#############################################################################################-->
   <div class="card mb-4">
     <div class="card-header">

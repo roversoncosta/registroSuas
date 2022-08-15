@@ -1,0 +1,79 @@
+# #### REGISTRA O FORMULARIO DE ACOES -------------------------------------------------------------------------
+# @login_required(login_url='contas/login')
+# @user_required
+# def table_action(request, initial):
+#     if request.method == 'POST':
+#         form_table_action = TableActionForm(request.POST or None, initial={'acao_realizada':initial})
+#         if form_table_action.is_valid():
+#             profile = form_table_action.save(commit=False)
+#             profile.user = request.user
+#             profile.save()
+#             form_table_action.save()
+#             # print(request.POST.get('acao_realizada'))
+#             return redirect('/users/formulario-de-acao')
+#     else:
+#         form_table_action = TableActionForm()
+#     return render(request, 'app/tables/tableAction/tableActionRegister.html', {'form_table_action':form_table_action})
+
+
+
+
+
+
+# #### TESTANDO TIPO DE AÇÕES S -------------------------------------------------------------------------
+# @login_required(login_url='contas/login')
+# @user_required
+# def action_type(request):
+#     if request.method == 'POST':
+#         #Seleciona o tipo da ação
+#         form_action_type = ActionTypeForm(request.POST)
+#         if form_action_type.is_valid():
+#             choice_action = request.POST.get('acao_realizada')
+#             # Tipo: ATP
+#             if choice_action == 'Apoio Técnico Presencial (ATP)':
+#                 initial = 'Apoio Técnico Presencial (ATP)'
+#                 table_action(request, initial)
+#                 # return redirect('/users/formulario-de-acao')
+#             form_table_action = TableActionForm()
+#             return render(request, 'app/tables/tableAction/tableActionRegisterATP.html', {'form_action_type':form_action_type,
+#                                                                                             'form_table_action':form_table_action,
+#                                                                                             'choice_action':choice_action,
+#                                                                                              })           
+#     else:
+#         form_action_type = ActionTypeForm()
+#     return render(request, 'app/tables/tableAction/actionType.html', {'form_action_type':form_action_type})
+
+
+
+
+
+
+
+
+
+def main(request):
+    return render(request, 'app/main.html')
+
+
+def index(request):
+    return render(request, 'app/index.html')
+
+
+# def tables(request):
+#     return render(request, 'app/tables.html')
+
+
+def register(request):
+    return render(request, 'app/register.html')
+
+
+def login(request):
+    return render(request, 'app/login.html')
+
+
+def charts(request):
+    return render(request, 'app/charts.html')
+
+
+def password(request):
+    return render(request, 'app/password.html')
