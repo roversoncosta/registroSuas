@@ -22,7 +22,7 @@ urlpatterns = [
     ### theme templates
     path('', views.main),
     # path('tables/', views.tables),
-    path('register/', views.register),
+    # path('register/', views.register),
     path('login/', views.login),
     path("logout", views.logout_request, name= "logout"),### new
     path('charts/', views.charts),

@@ -167,7 +167,7 @@ def tables(request):
     df_atp = pd.DataFrame(list(AcaoAtpModel.objects.all().values()))
     df_atnp = pd.DataFrame(list(AcaoAtnpModel.objects.all().values()))
     df_outras = pd.DataFrame(list(AcaoOutrasModel.objects.all().values()))
-    df = pd.concat([df_atp,df_atnp,df_outras]).drop(columns=['user_id'])
+    df = pd.concat([df_atp,df_atnp,df_outras])#.drop(columns=['user_id'])
     df['data_acao'] = pd.to_datetime(df['data_acao']).dt.strftime('%d-%m-%y')
     df = df.sort_values(by='data_acao', ascending=False)
     # print(df['data_acao'])
@@ -270,8 +270,8 @@ def index(request):
 #     return render(request, 'app/tables.html')
 
 
-def register(request):
-    return render(request, 'app/register.html')
+# def register(request):
+#     return render(request, 'app/register.html')
 
 
 def login(request):

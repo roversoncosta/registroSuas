@@ -22,12 +22,12 @@
         <thead>
           <tr>
             <th scope="col">ID</th>
+            <th scope="col">Data Ação</th>
             <th scope="col">Ação Realizada</th>
             <th scope="col">Caract. Ação</th>
             <th scope="col">Num. de Funcionarios</th>
             <th scope="col">Município Atendido</th>
             <th scope="col">Descrição</th>
-            <th scope="col">Data Ação</th>
             <th scope="col">Deletar</th>
             <th scope="col">Editar</th>
           </tr>
@@ -36,6 +36,7 @@
           {% for table in data_json %}
           <tr>
             <td>{{table.id}}</td>
+            <td>{{table.data_acao }}</td>
             <td>{{table.acao_realizada}}</td>
             <td>{{table.caracteristica_acao}}</td>
             <td>{{table.n_profissionais_atendidos}}</td>
@@ -43,7 +44,7 @@
 
             <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
               </a></td>
-            <td>{{table.data_acao }}</td>
+            
             <td>
               <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
                 {% csrf_token %}
@@ -253,7 +254,7 @@
       <table class="table mydatatable" style="width:100%">
         <thead>
           <tr>
-            <th scope="col">ID</th>
+            <!-- <th scope="col">ID</th> -->
             <th scope="col">Nome do Evento</th>
             <th scope="col">Tipo do Evento</th>
             <th scope="col">Intituição ofertante</th>
@@ -266,7 +267,7 @@
         <tbody>
         {% for table in table_event_page_object %}
           <tr>
-            <td scope="row">{{table.id}}</td>
+            <!-- <td scope="row">{{table.id}}</td> -->
             <td>{{table.titulo_evento}}</td>
             <td>{{table.tipo_evento}}</td>
             <td>{{table.instituicao_ofertante}}</td>
