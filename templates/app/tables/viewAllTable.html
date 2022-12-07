@@ -17,15 +17,24 @@
         <i class="fas fa-table me-1"></i>
         1. Ações Realizadas
     </div>
-    <div class="card-body"> 
-      <table class="table mydatatable" style="width:100%" >
+    <div class="card-body table-responsive-sm" style="overflow:auto; max-height: 400px;">
+      <style>
+        .table.table-ellipsis tbody td {
+                                          max-width: 200px;
+                                          overflow: hidden;
+                                          text-overflow: ellipsis;
+                                          white-space: nowrap
+}
+      </style>
+
+      <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
         <thead>
           <tr>
-            <th scope="col">ID</th>
+            <!-- <th scope="col">ID</th> -->
             <th scope="col">Data Ação</th>
             <th scope="col">Ação Realizada</th>
             <th scope="col">Caract. Ação</th>
-            <th scope="col">Num. de Funcionarios</th>
+            <th scope="col">Nº Prof. Atendidos</th>
             <th scope="col">Município Atendido</th>
             <th scope="col">Descrição</th>
             <th scope="col">Deletar</th>
@@ -34,28 +43,44 @@
         </thead>
         <tbody>
           {% for table in data_json %}
-          <tr>
-            <td>{{table.id}}</td>
+          <!-- <tr style="height:25px;"> -->
+            <!-- <td>{{table.id}}</td> -->
             <td>{{table.data_acao }}</td>
             <td>{{table.acao_realizada}}</td>
             <td>{{table.caracteristica_acao}}</td>
-            <td>{{table.n_profissionais_atendidos}}</td>
+            <td  style="text-align:center">{{table.n_profissionais_atendidos}}</td>
             <td>{{table.municipio_atendido}}</td>
+            <td>{{table.descricao_acao}}</td>
 
-            <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
-              </a></td>
-            
+           
+           
+            <!-- DELETE BUTTON -->
             <td>
-              <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
+              {% if table.acao_realizada == "Apoio Técnico Presencial (ATP)" %}
+              <form action="{% url 'deleteAtp' id=table.id %}"method="POST">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
-                  <i class="fa-solid fa-trash"></i></button>
-              </form>
-            </td>
-            <td><a href="{% url 'tableActionUpdate' id=table.id%}">
-                <button type="button" class="btn btn-info">
-                  <i class="fas fa-edit"></i>
-                </button>
+              {% elif table.acao_realizada == "Apoio Técnico Não Presencial (ATNP)" %}
+              <form action="{% url 'deleteAtnp' id=table.id %}" method="POST">
+              {% csrf_token %}
+              {% else %}
+              <form action="{% url 'deleteOutras' id=table.id %}" method="POST">
+                {% csrf_token %}
+              {% endif %}
+              <button type="submit" class="btn btn-outline-danger btn-sm" confirm="Deseja apagar ?">
+                <i class="fa-solid fa-trash"></i></button>
+
+            <!-- UPDATE BUTTON -->
+            <td>
+              {% if table.acao_realizada == "Apoio Técnico Presencial (ATP)" %}
+                <a href="{% url 'updateAtp' id=table.id%}">
+              {% elif table.acao_realizada == "Apoio Técnico Não Presencial (ATNP)" %}
+                <a href="{% url 'updateAtnp' id=table.id%}">
+                {% else %}
+                <a href="{% url 'updateOutras' id=table.id%}"></a>
+                {% endif %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                <i class="fas fa-edit"></i>
+              </button>
               </a>
             </td>
           </tr>

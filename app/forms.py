@@ -82,7 +82,7 @@ class AcaoAtpForm(ModelForm):
                     "data_acao":"Data da ação realizada",
                     "municipio_atendido":"Município Atendido" }
         widgets = {'data_acao': forms.DateInput(attrs={'type':'date'}),
-                   'acao_realizada':forms.TextInput(attrs={'readonly':'readonly'})  }
+                   'acao_realizada':forms.TextInput(attrs={'readonly':'readonly'})  } # como preencheu automaticamente , agora bloqueia o campo para apenas leitura!
 
 ### FORMULARIO DE AÇÕES - ATNP
 class AcaoAtnpForm(ModelForm):

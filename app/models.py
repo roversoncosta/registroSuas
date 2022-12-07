@@ -39,7 +39,7 @@ class User(AbstractUser):
 # ### DATABASE DE AÇÕES - ATP
 class AcaoAtpModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='acaoAtp')
-    acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE, default= 'Apoio Técnico Presencial (ATP)')
+    acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE, default= 'Apoio Técnico Presencial (ATP)') # preenche automaticamente
     caracteristica_acao = models.CharField(max_length=100, choices=TECNICO_PRESENCIAL_CHOICE, default= '')
     n_profissionais_atendidos = models.IntegerField('Numero de Funcionario',blank=False, null=False)
     descricao_acao = models.TextField('Descrição da Ação', max_length=1000, blank=False, null=False)
