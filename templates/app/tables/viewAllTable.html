@@ -3,10 +3,19 @@
 {% block title %} 📋 Tabelas {% endblock %}
 {% block content %}
 
+<style>
+  .table.table-ellipsis tbody td {
+                                    max-width: 200px;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap
+                                  }
+</style>
+
 <div class="container-fluid px-4">
-  <h1 class="mt-4">AÇÕES REALIZADAS</h1>
+  <h1 class="mt-4">TABELA DE REGISTROS</h1>
   <ol class="breadcrumb mb-4">
-      <li class="breadcrumb-item active">Base dados dos registros realizados</li>
+      <li class="breadcrumb-item active">Visualização e Edição dos Registros</li>
   </ol>
 
 
@@ -18,15 +27,6 @@
         1. Ações Realizadas
     </div>
     <div class="card-body table-responsive-sm" style="overflow:auto; max-height: 400px;">
-      <style>
-        .table.table-ellipsis tbody td {
-                                          max-width: 200px;
-                                          overflow: hidden;
-                                          text-overflow: ellipsis;
-                                          white-space: nowrap
-}
-      </style>
-
       <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
         <thead>
           <tr>
@@ -42,7 +42,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for table in data_json %}
+          {% for table in data_json_acoes %}
           <!-- <tr style="height:25px;"> -->
             <!-- <td>{{table.id}}</td> -->
             <td>{{table.data_acao }}</td>
@@ -52,8 +52,6 @@
             <td>{{table.municipio_atendido}}</td>
             <td>{{table.descricao_acao}}</td>
 
-           
-           
             <!-- DELETE BUTTON -->
             <td>
               {% if table.acao_realizada == "Apoio Técnico Presencial (ATP)" %}
@@ -89,11 +87,148 @@
       </table>
     </div>
   </div>
+
+  <!-- PARTICIPACAO EM EVENTOS -->
+  <div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        2. Participação em Eventos
+    </div>
+
+    <div class="card-body table-responsive-sm" style="overflow:auto; max-height: 400px;">
+      <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
+        <thead>
+          <tr>
+            <!-- <th scope="col">ID</th> -->
+            <th scope="col">Nome do Evento</th>
+            <th scope="col">Tipo do Evento</th>
+            <th scope="col">Intituição ofertante</th>
+            <th scope="col">Data inicial</th>
+            <th scope="col">Data final</th>
+            <th scope="col">Deletar</th>
+            <th scope="col">Editar</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for table in page_object_evento %}
+          <tr>
+            <!-- <td scope="row">{{table.id}}</td> -->
+            <td>{{table.titulo_evento}}</td>
+            <td>{{table.tipo_evento}}</td>
+            <td>{{table.instituicao_ofertante}}</td>
+            <td>{{table.data_inicial|date:"d/m/y" }}</td>
+            <td>{{table.data_final|date:"d/m/y" }}</td>
+            
+            <td>
+              <form method="post" action="{% url 'deleteEvento' id=table.id %}">
+                {% csrf_token %}
+                <a href="{% url 'deleteEvento' id=table.id %}" id="delete-item">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </a>
+                </form>
+            </td>
+            <td><a href="{% url 'updateEvento' id=table.id%}">
+                <button type="button" class="btn btn-outline-info btn-sm">
+                  <i class="fas fa-edit"></i>
+                </button>
+
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- INSTANCIAS DO SUAS -->
+    <div class="card mb-4">
+      <div class="card-header">
+          <i class="fas fa-table me-1"></i>
+          3. Participação em Instâncias Intersetoriais do SUAS
+      </div>
+      <div class="card-body table-responsive-sm" style="overflow:auto; max-height: 400px;">
+        <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
+          <thead >
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Espaço de participação</th>
+              <th scope="col">Data inicial</th>
+              <th scope="col">Data final</th>
+              <!-- <th scope="col">Descrição</th>
+              <th scope="col">Encaminhamentos</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for table in page_object_interset %}
+            <tr>
+              <td scope="row">{{table.id}}</td>
+              <td>{{table.espaco_participacao}}</td>
+              <td>{{table.data_inicial|date:"d/m/y" }}</td>
+              <td>{{table.data_final|date:"d/m/y" }}</td>
+              <td>
+                <form method="post" action="{% url 'deleteInterset' id=table.id %}">
+                  {% csrf_token %}
+                  <a href="{% url 'deleteInterset' id=table.id %}" id="delete-item">
+                      <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </a>
+                  </form>
+              </td>
+              <td><a href="{% url 'updateInterset' id=table.id%}">
+                  <button type="button" class="btn btn-outline-info btn-sm">
+                    <i class="fas fa-edit"></i>
+                  </button>
+  
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+
+
 </div>
 
 
 
 
+
+
+
+
+
+
+ 
+
+<!-- Modal ######################################################### -->
+<div class="modal fade" id="tableActionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Descrição</h5>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonClose">Fechar Descrição</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}
 
 
 
@@ -261,150 +396,3 @@
 </div>
 <br>
 <br> -->
-  <br><br>
-
-<div class="container-fluid px-4">
-  <h1 class="mt-4">EVENTOS</h1>
-  <ol class="breadcrumb mb-4">
-      <li class="breadcrumb-item active">Base dados dos registros realizados</li>
-  </ol>
-
-  <!-- TABELA DE EVENTOS ##############################################################################################################-->
-  <div class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-table me-1"></i>
-        2. Participação em Eventos
-    </div>
-    <div class="card-body">
-      <table class="table mydatatable" style="width:100%">
-        <thead>
-          <tr>
-            <!-- <th scope="col">ID</th> -->
-            <th scope="col">Nome do Evento</th>
-            <th scope="col">Tipo do Evento</th>
-            <th scope="col">Intituição ofertante</th>
-            <th scope="col">Data inicial</th>
-            <th scope="col">Data final</th>
-            <th scope="col">Deletar</th>
-            <th scope="col">Editar</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for table in table_event_page_object %}
-          <tr>
-            <!-- <td scope="row">{{table.id}}</td> -->
-            <td>{{table.titulo_evento}}</td>
-            <td>{{table.tipo_evento}}</td>
-            <td>{{table.instituicao_ofertante}}</td>
-            <td>{{table.data_inicial|date:"d/m/y" }}</td>
-            <td>{{table.data_final|date:"d/m/y" }}</td>
-            
-            <td>
-              <form method="post" action="{% url 'deleteTableEvent' id=table.id %}">
-                {% csrf_token %}
-                <a href="{% url 'deleteTableEvent' id=table.id %}" id="delete-item">
-                    <button type="submit" class="btn btn-danger">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </a>
-                </form>
-            </td>
-            <td><a href="{% url 'tableEventUpdate' id=table.id%}">
-                <button type="button" class="btn btn-info">
-                  <i class="fas fa-edit"></i>
-                </button>
-
-              </a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<br>
-<br>
-
-<div class="container-fluid px-4">
-  <h1 class="mt-4">PARTICIPAÇÃO EM INSTÂNCIA INTERSETORIAIS DO SUAS</h1>
-  <ol class="breadcrumb mb-4">
-      <li class="breadcrumb-item active">Base dados dos registros realizados</li>
-  </ol>
-  <!-- TABELA DE PARTICIPAÇÃO INTERSETORIAL SUAS#############################################################################################-->
-  <div class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-table me-1"></i>
-        3. Participação em Instâncias Intersetoriais do SUAS
-    </div>
-    <div class="card-body">
-      <table class="table mydatatable" style="width:100%">
-        <thead >
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Espaço de participação</th>
-            <th scope="col">Data inicial</th>
-            <th scope="col">Data final</th>
-            <!-- <th scope="col">Descrição</th>
-            <th scope="col">Encaminhamentos</th> -->
-          </tr>
-        </thead>
-        <tbody>
-          {% for table in table_interset_page_object %}
-          <tr>
-            <td scope="row">{{table.id}}</td>
-            <td>{{table.espaco_participacao}}</td>
-            <td>{{table.data_inicial|date:"d/m/y" }}</td>
-            <td>{{table.data_final|date:"d/m/y" }}</td>
-            <td>
-              <form method="post" action="{% url 'deleteTableInterset' id=table.id %}">
-                {% csrf_token %}
-                <a href="{% url 'deleteTableInterset' id=table.id %}" id="delete-item">
-                    <button type="submit" class="btn btn-danger">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </a>
-                </form>
-            </td>
-            <td><a href="{% url 'tableIntersetUpdate' id=table.id%}">
-                <button type="button" class="btn btn-info">
-                  <i class="fas fa-edit"></i>
-                </button>
-
-              </a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <br>
-  <br>
-
-</div>
-
-
-
-<!-- Modal ######################################################### -->
-<div class="modal fade" id="tableActionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Descrição</h5>
-      </div>
-      <div class="modal-body">
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonClose">Fechar Descrição</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-{% endblock %}

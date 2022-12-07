@@ -7,13 +7,14 @@ from .views import *
 # ACOES = ACOES.getAcaoAtp()
 
 urlpatterns = [
+    # REGISTRAR USUARIOS
     path('registrar', view=register_user, name="register_user"),
 
+    #CRIAR ACOES
     path('formulario-de-acao-atp', view=ACOES.getAcaoAtp, name="getAcaoAtp"),
     path('formulario-de-acao-atnp', view=ACOES.getAcaoAtnp, name="getAcaoAtnp"),
     path('formulario-de-acao-outras', view=ACOES.getAcaoOutras, name="getAcaoOutras"),
-
-    #DELETAR CAÇÕES
+    #DELETAR AÇÕES
     path('deletar-tabela-acao-atp/<id>', view=ACOES.deleteAtp, name="deleteAtp"),
     path('deletar-tabela-acao-atnp/<id>', view=ACOES.deleteAtnp, name="deleteAtnp"),
     path('deletar-tabela-acao-outras/<id>', view=ACOES.deleteOutras, name="deleteOutras"), 
@@ -21,7 +22,25 @@ urlpatterns = [
     path('atualizar-tabela-acao-atp/<id>', view=ACOES.updateAtp, name="updateAtp"),
     path('atualizar-tabela-acao-atnp/<id>', view=ACOES.updateAtnp, name="updateAtnp"),
     path('atualizar-tabela-acao-outras/<id>', view=ACOES.updateOutras, name="updateOutras"),
-
+    
+    #CRIAR EVENTOS
+    path('formulario-de-evento', view=EVENTO.getEvento, name="getEvento"),   
+    #DELETAR EVENTOS
+    path('deletar-tabela-evento/<id>', view=EVENTO.deleteEvento, name="deleteEvento"),
+    #ATUALIZAR EVENTOS
+    path('atualizar-tabela-evento/<id>', view=EVENTO.updateEvento, name="updateEvento"),
+    
+    #CRIAR INTERSETORIAIS
+    path('formulario-de-intersetoriais', view=INTERSET.getInterset, name="getInterset"),
+    #DELETAR INTERSETORIAIS
+    path('deletar-tabela-intersetoriais/<id>', view=INTERSET.deleteInterset, name="deleteInterset"),
+    #ATUALIZAR INTERSETORIAIS
+    path('atualizar-tabela-intersetoriais/<id>', view=INTERSET.updateInterset, name="updateInterset"),
+    
+    
+    
+    
+    # VER TABELAS
     path('tabelas', view=tables, name="tables"),
 
     # path('principal-usuario', view=index_users, name="index_users"),
@@ -30,7 +49,7 @@ urlpatterns = [
     # path('formulario-de-instancias', view=getInterset, name="getInterset"),
  
     # path('tabelas/<id>', view=description_table, name="description_table"),
-    path('deleteTableAction/<id>', view=ACOES.deleteTableAction, name="deleteTableAction"),
+    # path('deleteTableAction/<id>', view=ACOES.deleteTableAction, name="deleteTableAction"),
     # path('atualizar-tabela-acao/<id>', view=ACOES.table_action_update, name="tableActionUpdate"),
     # path('deleteTableIntersetorial/<id>', view=deleteInterset, name="deleteInterset"),
     # path('deleteTableEvent/<id>', view=deleteTableEvent, name="deleteTableEvent"),

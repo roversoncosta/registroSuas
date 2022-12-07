@@ -39,10 +39,10 @@ def logout_request(request):
 	return redirect("/users/contas/login/")
 
 
-#### REGISTRA NO FORMULARIO DE ACOES - APOIO TÉCNICO PRESENCIAL - ATP -------------------------------------------------------------------------
-@login_required(login_url='contas/login')
+#### REGISTRA NO FORMULARIO DE ACOES 
 @user_required
 class ACOES():
+    ##1.PRESENTIAL ATP --------------------------
     def getAcaoAtp(request): # PRESENCIAL
         if request.method == 'POST':
             formAtp = AcaoAtpForm(request.POST)
@@ -74,8 +74,7 @@ class ACOES():
         context['form_table_action'] = form
         return render(request, "app/tables/tableAction/tableActionUpdate.html", context=context)
 
-
-
+    ##2.NAO PRESENCIAL ATNP -----------------------------
     def getAcaoAtnp(request): # NÃO PRESENCIAL
         if request.method == 'POST':
             formAtnp = AcaoAtnpForm(request.POST)
@@ -107,9 +106,7 @@ class ACOES():
         context['form_table_action'] = form
         return render(request, "app/tables/tableAction/tableActionUpdate.html", context=context)
 
-
-
-
+    ##3.OUTRAS ---------------------------
     def getAcaoOutras(request): # OUTRAS
         if request.method == 'POST':
             formOutras = AcaoOutrasForm(request.POST)
@@ -141,17 +138,77 @@ class ACOES():
         context['form_table_action'] = form
         return render(request, "app/tables/tableAction/tableActionUpdate.html", context=context)
 
+### REGISTRA O FORMULARIO DE EVENTOS -------------------------------------------------------------------------
+# @login_required(login_url='contas/login')
+@user_required
+class EVENTO():
+    def getEvento(request):
+        if request.method == 'POST':
+            form_table_event = TableEventForm(request.POST)
+            if form_table_event.is_valid():
+                profile = form_table_event.save(commit=False)
+                profile.user = request.user
+                profile.save()
+                return redirect('/users/formulario-de-evento')
+        else:
+            form_table_event = TableEventForm()
+        return render(request, 'app/tables/tableEvent/tableEventRegister.html', {'form_table_event':form_table_event})
 
-
-
-
-    def deleteTableAction(request, id): ### DELETE
-        object_table_action = get_object_or_404(AcaoAtnpModel, id=id)
+    def deleteEvento(request, id):
+        object_table_event = get_object_or_404(TableEventModel, id=id)
         if request.method == "POST":
-            object_table_action.delete()
-            return redirect("/users/tabelas")
+            object_table_event.delete()
+            return redirect('/users/tabelas')
         return render(request, "delete_view.html")
+    
+    def updateEvento(request, id):
+        context = {}
+        get_object_model = get_object_or_404(TableEventModel, id=id)
+        form = TableEventForm(request.POST or None, instance=get_object_model)
 
+        if form.is_valid():
+            form.save()
+            return redirect('/users/tabelas')
+        context = {'form_table_event':form}
+        return render(request, 'app/tables/tableEvent/tableEventUpdate.html', context=context)
+
+@login_required(login_url='contas/login')
+@user_required
+class INTERSET():
+    def getInterset(request):
+        if request.method == 'POST':
+            form_table_interset = TableIntersetForm(request.POST)
+            if form_table_interset.is_valid():
+                profile = form_table_interset.save(commit=False)
+                profile.user = request.user
+                profile.save()
+                form_table_interset.save()
+                return redirect('/users/formulario-de-intersetoriais')
+        else:
+            form_table_interset = TableIntersetForm()
+        return render(request, 'app/tables/tableInterset/tableIntersetRegister.html', {'form_table_interset':form_table_interset})
+
+    def deleteInterset(request, id):
+        object_table_event = get_object_or_404(TableIntersetModel, id=id)
+        if request.method == "POST":
+            object_table_event.delete()
+            return redirect('/users/tabelas')
+        return render(request, "delete_view.html")
+    
+    def updateInterset(request, id):
+        context = {}
+        get_object_model = get_object_or_404(TableIntersetModel, id=id)
+        form = TableIntersetForm(request.POST or None, instance=get_object_model)
+        if form.is_valid():
+            form.save()
+            return redirect('/users/tabelas')
+        context = {'form_table_interset':form}
+        return render(request, 'app/tables/tableInterset/tableIntersetUpdate.html', context=context)
+    
+    
+    
+    
+    
     # def table_action_update(request, id): ## UPDATE
     #     context = {}
     #     get_object_model = get_object_or_404(AcaoAtpModel, id=id)
@@ -182,11 +239,21 @@ def tables(request):
     # print(df['data_acao'])
     # transformando dataframe em json para rodar com bootstrap
     json_records = df.reset_index().to_json(orient ='records')
-    data_json = []
-    data_json = json.loads(json_records)
+    data_json_acoes = []
+    data_json_acoes = json.loads(json_records)
+
+    ### eventos dados
+    page_object_evento = TableEventModel.objects.filter(user=request.user).values().order_by('-id')
+    page_object_interset = TableIntersetModel.objects.filter(user=request.user).values().order_by('-id')
+
+
+
     # print(data_json)
     # context = {'d': data}
-    return render(request, 'app/tables/viewAllTable.html', {'data_json':data_json})
+    return render(request, 'app/tables/viewAllTable.html', {'data_json_acoes':data_json_acoes,
+                                                            'page_object_evento':page_object_evento,
+                                                            'page_object_interset':page_object_interset,
+                                                             })
 
 
 
