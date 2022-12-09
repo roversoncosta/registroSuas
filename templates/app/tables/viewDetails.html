@@ -1,0 +1,47 @@
+{% extends 'app/index.html' %}
+{% load static%}
+{% block title %} 📋 Tabelas {% endblock %}
+{% block content %}
+
+<!-- <style>
+  .table.table-ellipsis tbody td {
+                                    max-width: 200px;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap
+                                  }
+</style> -->
+
+<div class="container-fluid px-4">
+  <h1 class="mt-4">DETALHES DO REGISTRO</h1>
+  <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Visualização detalhada</li>
+  </ol>
+
+
+  <!-- testando tabela de acoes concatenada e em formado json para pegar bootstrap config -->
+  <!-- TABELA DE AÇÕES - ATP + ATNP + OUTRAS AÇÕES CONCATENADAS (FUNÇÃO INSERIDA NA VIEWS #################################################-->
+  <div class="card mb-4">
+    
+    <div class="card-body table-responsive-sm" style="overflow:auto; max-height: 400px;">
+      {% for table in context %}
+        <p>Data Ação</p>
+        {{table.data_acao }}
+        <p>Ação Realizada</p>
+        {{table.acao_realizada}}
+        <p>Caract. Ação</p>
+        {{table.caracteristica_acao}}
+        <p>Nº Prof. Atendidos</p>
+        {{table.n_profissionais_atendidos}}
+        <p>Município Atendido</p>
+        {{table.municipio_atendido}}
+        <p>Descrição</p>
+        {{table.descricao_acao}}
+        {% endfor %}
+        </tbody>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

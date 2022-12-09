@@ -24,7 +24,7 @@ urlpatterns = [
     path('atualizar-tabela-acao-outras/<id>', view=ACOES.updateOutras, name="updateOutras"),
     
     #CRIAR EVENTOS
-    path('formulario-de-evento', view=EVENTO.getEvento, name="getEvento"),   
+    path('formulario-de-evento/', view=EVENTO.getEvento, name="getEvento"),   
     #DELETAR EVENTOS
     path('deletar-tabela-evento/<id>', view=EVENTO.deleteEvento, name="deleteEvento"),
     #ATUALIZAR EVENTOS
@@ -38,10 +38,10 @@ urlpatterns = [
     path('atualizar-tabela-intersetoriais/<id>', view=INTERSET.updateInterset, name="updateInterset"),
     
     
-    
-    
     # VER TABELAS
     path('tabelas', view=tables, name="tables"),
+    # DETALHAR
+    # path('tabelas-detalhes/<id>',view=ACOES.tablesDetails, name='tablesDetails'),
 
     # path('principal-usuario', view=index_users, name="index_users"),
     # path('formulario-de-evento', view=getEvento, name='getEvento'),
