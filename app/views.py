@@ -178,15 +178,15 @@ class ACOES():
 class EVENTO():
     def getEvento(request):
         if request.method == 'POST':
-            form_table_event = TableEventForm(request.POST)
-            if form_table_event.is_valid():
-                profile = form_table_event.save(commit=False)
+            formEvento = TableEventForm(request.POST)
+            if formEvento.is_valid():
+                profile = formEvento.save(commit=False)
                 profile.user = request.user
                 profile.save()
                 return redirect('/users/formulario-de-evento')
         else:
-            form_table_event = TableEventForm()
-        return render(request, 'app/tables/tableEvent/tableEventRegister.html', {'form_table_event':form_table_event})
+            formEvento = TableEventForm()
+        return render(request, 'app/tables/tableEvent/tableEventRegister.html', {'formEvento':formEvento})
 
     def deleteEvento(request, id):
         object_table_event = get_object_or_404(TableEventModel, id=id)
@@ -219,16 +219,16 @@ class EVENTO():
 class INTERSET():
     def getInterset(request):
         if request.method == 'POST':
-            form_table_interset = TableIntersetForm(request.POST)
-            if form_table_interset.is_valid():
-                profile = form_table_interset.save(commit=False)
+            formInterset = TableIntersetForm(request.POST)
+            if formInterset.is_valid():
+                profile = formInterset.save(commit=False)
                 profile.user = request.user
                 profile.save()
-                form_table_interset.save()
+                formInterset.save()
                 return redirect('/users/formulario-de-intersetoriais')
         else:
-            form_table_interset = TableIntersetForm()
-        return render(request, 'app/tables/tableInterset/tableIntersetRegister.html', {'form_table_interset':form_table_interset})
+            formInterset = TableIntersetForm()
+        return render(request, 'app/tables/tableInterset/tableIntersetRegister.html', {'formInterset':formInterset})
 
     def deleteInterset(request, id):
         object_table_event = get_object_or_404(TableIntersetModel, id=id)

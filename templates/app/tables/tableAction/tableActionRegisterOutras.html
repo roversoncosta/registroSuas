@@ -6,14 +6,21 @@
 
 
 {% block content %}
-<div class="container w-50 mb-3">      
+
+<div class="container w-75 mb-3 card shadow-lg border-0 rounded-lg mt-5">      
   <div class="row mx-auto">
     <div class="col-md-2">
     </div>
-    <h6 class="font-weight-bold text-center mt-4 mb-4 center" >Registro de Ações Realizadas </h6>
-    <div class="rounded" style="background-color:#9bddb8 ;">
-      <h3 class="text-center mt-4 mb-4 center" >Apoio Técnico - Outras Ações</h3>
+    <div class="rounded mt-4 mb-4 center" style="background-color:#9bddb8 ;">
+      <h3 class="text-center mt-4 mb-4" >REGISTRO DE AÇÕES</h3>
       </div>
+    <!-- <h4 class="font-weight-bold text-left mt-4 mb-4 left" >Registro de Ações Realizadas </h4> -->
+    <h6 style="color:rgb(123, 123, 123);"><span style="font-weight: bold;">Usuário:</span> {{user.first_name|title}} {{user.last_name|title}}</h6>
+    <h6 style="color:rgb(123, 123, 123);"><span style="font-weight: bold;">Setor:</span> {{user.sector_name}}</h6>
+    <hr>
+    <!-- <div class="rounded" style="background-color:#9bddb8 ;">
+      <h3 class="text-center mt-4 mb-4 center" >Apoio Técnico Presencial - ATP</h3>
+      </div> -->
       
   
     <div class="card-body">  
@@ -22,19 +29,9 @@
             <div class="row">
               <div class="col-md-12" >
                 {{formOutras.acao_realizada|as_crispy_field }} 
-              </div>
-              <div class="col-md-6">
                 {{ formOutras.caracteristica_acao|as_crispy_field }}
-              </div>
-
-              <div class="col-md-6">
                 {{ formOutras.municipio_atendido|as_crispy_field }}
-              </div>
-              <div class="col-md-6">
                 {{ formOutras.n_profissionais_atendidos|as_crispy_field }}
-              </div>
-
-              <div class="col-md-6">
                 {{ formOutras.data_acao|as_crispy_field }}
               </div>
               

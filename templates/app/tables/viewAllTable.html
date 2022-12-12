@@ -30,26 +30,21 @@
       <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
         <thead>
           <tr>
-            <th scope="col">User</th>
             <th scope="col">Data Ação</th>
             <th scope="col">Ação Realizada</th>
             <th scope="col">Caract. Ação</th>
-            <th scope="col">Nº Prof. Atendidos</th>
             <th scope="col">Município Atendido</th>
-            <!-- <th scope="col">Detalhe</th> -->
-            <!-- <th scope="col">Deletar</th> -->
-            <!-- <th scope="col">Editar</th> -->
+            <th scope="col">Nº Prof. Atendidos</th>
           </tr>
         </thead>
         <tbody>
           {% for table in data_json_acoes %}
-          <!-- <tr style="height:25px;"> -->
-            <td>{{user.username}}</td>
             <td>{{table.data_acao }}</td>
-            <td>{{table.acao_realizada}}</td>
+            <td width="25%">{{table.acao_realizada}}</td>
             <td>{{table.caracteristica_acao}}</td>
-            <td  style="text-align:center">{{table.n_profissionais_atendidos}}</td>
             <td>{{table.municipio_atendido}}</td>
+            <td  style="text-align:center">{{table.n_profissionais_atendidos}}</td>
+            
 
             <!-- LIST BUTTON -->
             <td>
@@ -112,12 +107,12 @@
       <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
         <thead>
           <tr>
-            <!-- <th scope="col">ID</th> -->
+            <th scope="col">Data inicial</th>
+            <th scope="col">Data final</th>
             <th scope="col">Nome do Evento</th>
             <th scope="col">Tipo do Evento</th>
             <th scope="col">Intituição ofertante</th>
-            <th scope="col">Data inicial</th>
-            <th scope="col">Data final</th>
+            
             <!-- <th scope="col">Deletar</th>
             <th scope="col">Editar</th> -->
           </tr>
@@ -125,12 +120,12 @@
         <tbody>
         {% for table in page_object_evento %}
           <tr>
-            <!-- <td scope="row">{{table.id}}</td> -->
+            <td>{{table.data_inicial|date:"d/m/y" }}</td>
+            <td>{{table.data_final|date:"d/m/y" }}</td>
             <td>{{table.titulo_evento}}</td>
             <td>{{table.tipo_evento}}</td>
             <td>{{table.instituicao_ofertante}}</td>
-            <td>{{table.data_inicial|date:"d/m/y" }}</td>
-            <td>{{table.data_final|date:"d/m/y" }}</td>
+
             
             <!-- LIST BUTTON -->
             <td>
@@ -179,17 +174,18 @@
         <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
           <thead >
             <tr>
-              <th scope="col">Espaço de participação</th>
               <th scope="col">Data inicial</th>
               <th scope="col">Data final</th>
+              <th scope="col">Espaço de participação</th>
             </tr>
           </thead>
           <tbody>
             {% for table in page_object_interset %}
             <tr>
-              <td>{{table.espaco_participacao}}</td>
               <td>{{table.data_inicial|date:"d/m/y" }}</td>
               <td>{{table.data_final|date:"d/m/y" }}</td>
+              <td>{{table.espaco_participacao}}</td>
+
 
               <!-- LIST BUTTON -->
               <td>
