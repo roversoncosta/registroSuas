@@ -1,5 +1,6 @@
 from pickle import FALSE
 from django.shortcuts import render
+from django.views.generic import ListView
 
 # Create your views here.
 from secrets import choice
@@ -73,6 +74,13 @@ class ACOES():
             return redirect('/users/tabelas')
         context['form_table_action'] = form
         return render(request, "app/tables/tableAction/tableActionUpdate.html", context=context)
+    
+    def listAcaoAtp(request, id):
+        acaoAtp_object_model = AcaoAtpModel.objects.filter(id=id)
+        return render(request, 'app/tables/tableAction/listAcaoAtp.html',{
+            'acaoAtp_object_model':acaoAtp_object_model})
+
+
 
     ##2.NAO PRESENCIAL ATNP -----------------------------
     def getAcaoAtnp(request): # NÃO PRESENCIAL
@@ -106,6 +114,11 @@ class ACOES():
         context['form_table_action'] = form
         return render(request, "app/tables/tableAction/tableActionUpdate.html", context=context)
 
+    def listAcaoAtnp(request, id):
+        acaoAtnp_object_model = AcaoAtnpModel.objects.filter(id=id)
+        return render(request, 'app/tables/tableAction/listAcaoAtnp.html',{
+            'acaoAtnp_object_model':acaoAtnp_object_model})
+
     ##3.OUTRAS ---------------------------
     def getAcaoOutras(request): # OUTRAS
         if request.method == 'POST':
@@ -137,6 +150,27 @@ class ACOES():
             return redirect('/users/tabelas')
         context['form_table_action'] = form
         return render(request, "app/tables/tableAction/tableActionUpdate.html", context=context)
+
+    def listAcaoOutras(request, id):
+        acaoOutras_object_model = AcaoOutrasModel.objects.filter(id=id)
+        return render(request, 'app/tables/tableAction/listAcaoOutras.html',{
+            'acaoOutras_object_model':acaoOutras_object_model})
+    
+    
+    def listAcao(request, id):
+            df_atp = pd.DataFrame(list(AcaoAtpModel.objects.filter(user=request.user, id=id).values().order_by('-id')))
+            df_atnp = pd.DataFrame(list(AcaoAtnpModel.objects.filter(user=request.user, id=id).values().order_by('-id')))
+            df_outras = pd.DataFrame(list(AcaoOutrasModel.objects.filter(user=request.user, id=id).values().order_by('-id')))
+            df = pd.concat([df_atp,df_atnp,df_outras])
+            # df['data_acao'] = pd.to_datetime(df['data_acao']).dt.strftime('%d-%m-%y')
+            json_records = df.reset_index().to_json(orient ='records')
+            data_json_acoes = []
+            data_json_acoes = json.loads(json_records)
+            print(df)
+            return render(request, 'app/tables/tableAction/listAcao.html', {'data_json_acoes':data_json_acoes,
+                                                                    })
+
+
 
 ### REGISTRA O FORMULARIO DE EVENTOS -------------------------------------------------------------------------
 # @login_required(login_url='contas/login')
@@ -171,6 +205,14 @@ class EVENTO():
             return redirect('/users/tabelas')
         context = {'form_table_event':form}
         return render(request, 'app/tables/tableEvent/tableEventUpdate.html', context=context)
+    
+    def listEvento(request, id):
+        evento_object_model = TableEventModel.objects.filter(id=id)
+        return render(request, 'app/tables/tableEvent/listEvento.html',{'evento_object_model':evento_object_model})# context=context)
+
+
+###---INSTANCIAS INTERSETORIAIS
+
 
 @login_required(login_url='contas/login')
 @user_required
@@ -205,23 +247,11 @@ class INTERSET():
         context = {'form_table_interset':form}
         return render(request, 'app/tables/tableInterset/tableIntersetUpdate.html', context=context)
     
-    
-    
-    
-    
-    # def table_action_update(request, id): ## UPDATE
-    #     context = {}
-    #     get_object_model = get_object_or_404(AcaoAtpModel, id=id)
-    #     form = AcaoAtpForm(request.POST or None, instance=get_object_model)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('/users/tabelas')
-    #     context['form_table_action'] = form
-    #     return render(request, "app/tables/tableAction/tableActionUpdate.html", context=context)
+    def listInterset(request, id):
+        interset_object_model = TableIntersetModel.objects.filter(id=id)
+        return render(request, 'app/tables/tableInterset/listInterset.html',{'interset_object_model':interset_object_model})# context=context)
 
-
-
-
+  
 ##### VISUALIZAR TABELAS ----------------------------------------------------------------------------------------------
 @login_required(login_url='contas/login')
 @user_required
@@ -254,153 +284,6 @@ def tables(request):
                                                             'page_object_evento':page_object_evento,
                                                             'page_object_interset':page_object_interset,
                                                              })
-
-
-
-
-#### REGISTRA O FORMULARIO DE EVENTOS -------------------------------------------------------------------------
-# @login_required(login_url='contas/login')
-# @user_required
-# def getEvento(request):
-#     if request.method == 'POST':
-#         form_table_event = TableEventForm(request.POST)
-#         if form_table_event.is_valid():
-#             profile = form_table_event.save(commit=False)
-#             profile.user = request.user
-#             profile.save()
-#             return redirect('/users/formulario-de-evento')
-#     else:
-#         form_table_event = TableEventForm()
-#     return render(request, 'app/tables/tableEvent/tableEventRegister.html', {'form_table_event':form_table_event})
-
-
-# #### REGISTRA O FORMULARIO DE PATICIPAÇÃO EM INSTANCIAS DO SUAS----------------------------------------------------
-# @login_required(login_url='contas/login')
-# @user_required
-# def getInterset(request):
-#     if request.method == 'POST':
-#         form_table_interset = TableIntersetForm(request.POST)
-#         if form_table_interset.is_valid():
-#             profile = form_table_interset.save(commit=False)
-#             profile.user = request.user
-#             profile.save()
-#             form_table_interset.save()
-#             return redirect('/users/forlulario-de-instancias')
-#     else:
-#         form_table_interset = TableIntersetForm()
-#     return render(request, 'app/tables/tableInterset/tableIntersetRegister.html', {'form_table_interset':form_table_interset})
-
-# # DELETAR 
-# @login_required(login_url='contas/login')
-# @user_required
-# def deleteInterset(request, id):
-#     object_table_interset = get_object_or_404(TableIntersetModel, id=id)
-#     if request.method == "POST":
-#         object_table_interset.delete()
-#         return redirect('/users/tabelas')
-#     return render(request, "delete_view.html")
-
-# # ATUALIZAR
-# @login_required(login_url='contas/login')
-# @user_required
-# def updateInterset(request, id):
-#     context = {}
-#     get_object_model = get_object_or_404(TableIntersetModel, id=id)
-#     form = TableIntersetForm(request.POST or None, instance=get_object_model)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('/users/tabelas')
-#     context = {'form_table_interset':form}
-#     return render(request, 'tables/tableInterset/tableIntersetUpdate.html', context=context)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#Descrição das Tabelas
-# @login_required(login_url='contas/login')
-# @user_required
-# def description_table(request, id):
-#     atp_page_object = AcaoAtpModel.objects.filter(user=request.user).values().order_by('-id')
-#     atnp_page_object = AcaoAtnpModel.objects.filter(user=request.user).values().order_by('-id')
-#     event_page_object = TableEventModel.objects.filter(user=request.user).values().order_by('-id')
-#     interset_page_object = TableIntersetModel.objects.filter(user=request.user).values().order_by('-id')
-
-#     atp_id_description = get_object_or_404(atp_page_object, id=id)
-#     atnp_id_description = get_object_or_404(atnp_page_object, id=id)
-#     event_id_description = get_object_or_404(event_page_object, id=id)
-#     interset_id_description = get_object_or_404(interset_page_object, id=id)
-
-#     return render(request, 'tables/tableAction/tableActionGetDescription.html', {
-#         'atp_id_description':id_description,
-#         'table_action_page_object':table_action_page_object,
-#         # 'table_event_page_object':table_event_page_object
-#         })
-
-
-
-### ---- DELETE DATA TABLES
-# @login_required(login_url='contas/login')
-# @user_required
-# def deleteTableAction(request, id):
-#     object_table_action = get_object_or_404(TableActionModel, id=id)
-
-#     if request.method == "POST":
-#         object_table_action.delete()
-#         return redirect("/users/tabelas")
-#     return render(request, "delete_view.html")
-
-
-
-
-
-
-
-# @login_required(login_url='contas/login')
-# @user_required
-# def deleteTableEvent(request, id):
-#     object_table_event = get_object_or_404(TableEventModel, id=id)
-#     if request.method == "POST":
-#         object_table_event.delete()
-#         return redirect('/users/tabelas')
-#     return render(request, "delete_view.html")
-
-
-# @login_required(login_url='contas/login')
-# @user_required
-# def table_action_update(request, id):
-#     context = {}
-
-#     get_object_model = get_object_or_404(TableActionModel, id=id)
-#     form = TableActionForm(request.POST or None, instance=get_object_model)
-
-#     if form.is_valid():
-#         form.save()
-#         return redirect('/users/tabelas')
-#     context['form_table_action'] = form
-#     return render(request, "tables/tableAction/tableActionUpdate.html", context=context)
-
-# @login_required(login_url='contas/login')
-# @user_required
-# def table_event_update(request, id):
-#     context = {}
-#     get_object_model = get_object_or_404(TableEventModel, id=id)
-#     form = TableEventForm(request.POST or None, instance=get_object_model)
-
-#     if form.is_valid():
-#         form.save()
-#         return redirect('/users/tabelas')
-#     context = {'form_table_event':form}
-#     return render(request, 'tables/tableEvent/tableEventUpdate.html', context=context)
 
 
 

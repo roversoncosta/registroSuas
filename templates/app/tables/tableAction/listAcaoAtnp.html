@@ -1,0 +1,33 @@
+{% extends 'app/index.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title%} Listar Registro de Participação em Eventos {% endblock %}
+
+
+{% block content %}
+<div class="container w-75 mb-3">      
+  <div class="row mx-auto">
+    <div class="col-md-2">
+    </div>
+    <h4 class="font-weight-bold text-left mt-4 mb-4" >AÇÕES REALIZADAS <br>
+    <span style="color: dimgrey;font-size: 70%;">Descrição completa</span>
+    <br><hr>
+    </h4>      
+    <div class="text-break "> 
+  
+      {% for acao in acaoAtnp_object_model%}
+
+        <p><span style="font-weight:bold;">Ação Realizada:</span> {{acao.acao_realizada}}</p>
+        <p><span style="font-weight:bold;">Município atendido:</span> {{acao.municipio_atendido}}</p>
+        <p><span style="font-weight:bold;">Caracteristica da Ação:</span> {{acao.caracteristica_acao}}</p>
+        <p><span style="font-weight:bold;">Número de profissionais atendidos:</span> {{acao.n_profissionais_atendidos}}</p>
+        <p><span style="font-weight:bold;">descricao_acao:</span><br>{{acao.descricao_acao}}</p>
+        <hr>
+        <p style="font-size: 70%;"><span style="font-weight:bold;"> Registrado por:</span> {{user.first_name|title}} {{user.last_name|title}}</p>
+   
+        {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

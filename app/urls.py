@@ -41,6 +41,14 @@ urlpatterns = [
     # VER TABELAS
     path('tabelas', view=tables, name="tables"),
     # DETALHAR
+    path('list-acao/<id>', view = ACOES.listAcaoAtp,name="listAcao"),
+
+    path('list-acao-atp/<id>', view =ACOES.listAcaoAtp,name="listAcaoAtp"),
+    path('list-acao-atnp/<id>', view =ACOES.listAcaoAtnp,name="listAcaoAtnp"),
+    path('list-acao-outras/<id>', view =ACOES.listAcaoOutras,name="listAcaoOutras"),
+    path('list-evento/<id>', view = EVENTO.listEvento,name="listEvento"),
+    path('list-interset/<id>', view = INTERSET.listInterset,name="listInterset"),
+    
     # path('tabelas-detalhes/<id>',view=ACOES.tablesDetails, name='tablesDetails'),
 
     # path('principal-usuario', view=index_users, name="index_users"),

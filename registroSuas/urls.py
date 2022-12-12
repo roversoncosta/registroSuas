@@ -19,6 +19,7 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
     ### theme templates
     path('', views.main),
     # path('tables/', views.tables),

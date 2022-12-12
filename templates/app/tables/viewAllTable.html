@@ -30,44 +30,40 @@
       <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
         <thead>
           <tr>
-            <!-- <th scope="col">ID</th> -->
+            <th scope="col">User</th>
             <th scope="col">Data Ação</th>
             <th scope="col">Ação Realizada</th>
             <th scope="col">Caract. Ação</th>
             <th scope="col">Nº Prof. Atendidos</th>
             <th scope="col">Município Atendido</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Detalhe</th>
-            <th scope="col">Deletar</th>
-            <th scope="col">Editar</th>
+            <!-- <th scope="col">Detalhe</th> -->
+            <!-- <th scope="col">Deletar</th> -->
+            <!-- <th scope="col">Editar</th> -->
           </tr>
         </thead>
         <tbody>
           {% for table in data_json_acoes %}
           <!-- <tr style="height:25px;"> -->
-            <!-- <td>{{table.id}}</td> -->
+            <td>{{user.username}}</td>
             <td>{{table.data_acao }}</td>
             <td>{{table.acao_realizada}}</td>
             <td>{{table.caracteristica_acao}}</td>
             <td  style="text-align:center">{{table.n_profissionais_atendidos}}</td>
             <td>{{table.municipio_atendido}}</td>
-            <td>{{table.descricao_acao}}</td>
-            
 
-            <!-- DELETE BUTTON -->
+            <!-- LIST BUTTON -->
             <td>
               {% if table.acao_realizada == "Apoio Técnico Presencial (ATP)" %}
-              <form action="{% url 'deleteAtp' id=table.id %}"method="POST">
-                {% csrf_token %}
+                <a href="{% url 'listAcaoAtp' id=table.id %}">
               {% elif table.acao_realizada == "Apoio Técnico Não Presencial (ATNP)" %}
-              <form action="{% url 'deleteAtnp' id=table.id %}" method="POST">
-              {% csrf_token %}
+                <a href="{% url 'listAcaoAtnp' id=table.id %}">
               {% else %}
-              <form action="{% url 'deleteOutras' id=table.id %}" method="POST">
-                {% csrf_token %}
+              <a href="{% url 'listAcaoOutras' id=table.id %}">Ver</a>
               {% endif %}
-              <button type="submit" class="btn btn-outline-danger btn-sm" confirm="Deseja apagar ?">
-                <i class="fa-solid fa-trash"></i></button>
+              <button type="button" class="btn btn-outline-secondary btn-sm">
+                <i class="fa-solid fa-file-lines"></i>
+            </td>
+            
 
             <!-- UPDATE BUTTON -->
             <td>
@@ -83,6 +79,21 @@
               </button>
               </a>
             </td>
+
+            <!-- DELETE BUTTON -->
+            <td>
+            {% if table.acao_realizada == "Apoio Técnico Presencial (ATP)" %}
+            <form action="{% url 'deleteAtp' id=table.id %}"method="POST">
+              {% csrf_token %}
+            {% elif table.acao_realizada == "Apoio Técnico Não Presencial (ATNP)" %}
+            <form action="{% url 'deleteAtnp' id=table.id %}" method="POST">
+            {% csrf_token %}
+            {% else %}
+            <form action="{% url 'deleteOutras' id=table.id %}" method="POST">
+              {% csrf_token %}
+            {% endif %}
+            <button type="submit" class="btn btn-outline-danger btn-sm" confirm="Deseja apagar ?">
+              <i class="fa-solid fa-trash"></i></button>
           </tr>
           {% endfor %}
         </tbody>
@@ -107,8 +118,8 @@
             <th scope="col">Intituição ofertante</th>
             <th scope="col">Data inicial</th>
             <th scope="col">Data final</th>
-            <th scope="col">Deletar</th>
-            <th scope="col">Editar</th>
+            <!-- <th scope="col">Deletar</th>
+            <th scope="col">Editar</th> -->
           </tr>
         </thead>
         <tbody>
@@ -121,6 +132,24 @@
             <td>{{table.data_inicial|date:"d/m/y" }}</td>
             <td>{{table.data_final|date:"d/m/y" }}</td>
             
+            <!-- LIST BUTTON -->
+            <td>
+              <a href="{% url 'listEvento' id=table.id %}">
+                <button type="button" class="btn btn-outline-secondary btn-sm">
+                  <i class="fa-solid fa-file-lines"></i>
+                </button>
+              </a>
+            </td>
+            
+            <td> 
+              <!-- UPDATE BUTTON -->
+              <a href="{% url 'updateEvento' id=table.id%}">
+                <button type="button" class="btn btn-outline-info btn-sm">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </a>
+            </td>
+            <!-- DELETE BUTTON -->
             <td>
               <form method="post" action="{% url 'deleteEvento' id=table.id %}">
                 {% csrf_token %}
@@ -131,13 +160,8 @@
                   </a>
                 </form>
             </td>
-            <td><a href="{% url 'updateEvento' id=table.id%}">
-                <button type="button" class="btn btn-outline-info btn-sm">
-                  <i class="fas fa-edit"></i>
-                </button>
+            
 
-              </a>
-            </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -155,21 +179,36 @@
         <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
           <thead >
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Espaço de participação</th>
               <th scope="col">Data inicial</th>
               <th scope="col">Data final</th>
-              <!-- <th scope="col">Descrição</th>
-              <th scope="col">Encaminhamentos</th> -->
             </tr>
           </thead>
           <tbody>
             {% for table in page_object_interset %}
             <tr>
-              <td scope="row">{{table.id}}</td>
               <td>{{table.espaco_participacao}}</td>
               <td>{{table.data_inicial|date:"d/m/y" }}</td>
               <td>{{table.data_final|date:"d/m/y" }}</td>
+
+              <!-- LIST BUTTON -->
+              <td>
+                <a href="{% url 'listInterset' id=table.id %}">
+                  <button type="button" class="btn btn-outline-secondary btn-sm">
+                    <i class="fa-solid fa-file-lines"></i>
+                  </button>
+                </a>
+              </td>
+              <!-- UPDATE BUTTON -->
+              <td><a href="{% url 'updateInterset' id=table.id%}">
+                <button type="button" class="btn btn-outline-info btn-sm">
+                  <i class="fas fa-edit"></i>
+                </button>
+
+              </a>
+            </td>
+
+              <!-- DELETE BUTTON -->
               <td>
                 <form method="post" action="{% url 'deleteInterset' id=table.id %}">
                   {% csrf_token %}
@@ -180,13 +219,7 @@
                     </a>
                   </form>
               </td>
-              <td><a href="{% url 'updateInterset' id=table.id%}">
-                  <button type="button" class="btn btn-outline-info btn-sm">
-                    <i class="fas fa-edit"></i>
-                  </button>
-  
-                </a>
-              </td>
+              
             </tr>
             {% endfor %}
           </tbody>
@@ -228,173 +261,4 @@
 </div>
 
 
-
-
 {% endblock %}
-
-
-
-
-
-  <!-- TABELA DE AÇÕES - ATP ###########################################################################################################-->
-  <!-- <div class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-table me-1"></i>
-        1.1. Apoio Técnico Presencial - ATP
-    </div>
-    <div class="card-body"> 
-      <table class="table mydatatable" style="width:100%" >
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Tipo de Registro</th>
-            <th scope="col">Tecnico Presencial</th>
-            <th scope="col">Num. de Funcionarios</th>
-            <th scope="col">Município Atendido</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Data Ação</th>
-            <th scope="col">Deletar</th>
-            <th scope="col">Editar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for table in table_action_atp_page_object %}
-          <tr>
-            <td>{{table.id}}</td>
-            <td>{{table.acao_realizada}}</td>
-            <td>{{table.caracteristica_acao}}</td>
-            <td>{{table.n_profissionais_atendidos}}</td>
-            <td>{{table.municipio_atendido}}</td>
-
-            <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
-              </a></td>
-            <td>{{table.data_acao|date:"d/m/y" }}</td>
-            <td>
-              <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
-                  <i class="fa-solid fa-trash"></i></button>
-              </form>
-            </td>
-            <td><a href="{% url 'tableActionUpdate' id=table.id%}">
-                <button type="button" class="btn btn-info">
-                  <i class="fas fa-edit"></i>
-                </button>
-              </a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div> -->
-
-
-  <!-- TABELA DE AÇÕES - ATNP ###########################################################################################################-->
-  <!-- <div class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-table me-1"></i>
-        1.2. Apoio Técnico Presencial - ATNP
-    </div>
-    <div class="card-body"> 
-      <table class="table mydatatable" style="width:100%" >
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Tipo de Registro</th>
-            <th scope="col">Tecnico Presencial</th>
-            <th scope="col">Num. de Funcionarios</th>
-            <th scope="col">Município Atendido</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Data Ação</th>
-            <th scope="col">Deletar</th>
-            <th scope="col">Editar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for table in table_action_atnp_page_object %}
-          <tr>
-            <td>{{table.id}}</td>
-            <td>{{table.acao_realizada}}</td>
-            <td>{{table.caracteristica_acao}}</td>
-            <td>{{table.n_profissionais_atendidos}}</td>
-            <td>{{table.municipio_atendido}}</td>
-
-            <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
-              </a></td>
-            <td>{{table.data_acao|date:"d/m/y" }}</td>
-            <td>
-              <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
-                  <i class="fa-solid fa-trash"></i></button>
-              </form>
-            </td>
-            <td><a href="{% url 'tableActionUpdate' id=table.id%}">
-                <button type="button" class="btn btn-info">
-                  <i class="fas fa-edit"></i>
-                </button>
-              </a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div> -->
-
-
-  <!-- TABELA DE AÇÕES - OUTRAS AÇÕES ###########################################################################################################-->
-  <!-- <div class="card mb-4">
-  <div class="card-header">
-      <i class="fas fa-table me-1"></i>
-      1.3. Apoio Técnico Presencial - Outras Ações
-  </div>
-  <div class="card-body"> 
-    <table class="table mydatatable" style="width:100%" >
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Tipo de Registro</th>
-          <th scope="col">Tecnico Presencial</th>
-          <th scope="col">Num. de Funcionarios</th>
-          <th scope="col">Município Atendido</th>
-          <th scope="col">Descrição</th>
-          <th scope="col">Data Ação</th>
-          <th scope="col">Deletar</th>
-          <th scope="col">Editar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for table in table_action_outras_page_object %}
-        <tr>
-          <td>{{table.id}}</td>
-          <td>{{table.acao_realizada}}</td>
-          <td>{{table.caracteristica_acao}}</td>
-          <td>{{table.n_profissionais_atendidos}}</td>
-          <td>{{table.municipio_atendido}}</td>
-
-          <td><a href="{% url 'description_table' id=table.id %}" class="text-decoration-none">Visualizar
-            </a></td>
-          <td>{{table.data_acao|date:"d/m/y" }}</td>
-          <td>
-            <form action="{% url 'deleteTableAction' id=table.id %}" method="POST">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-danger" confirm="Deseja apagar ?">
-                <i class="fa-solid fa-trash"></i></button>
-            </form>
-          </td>
-          <td><a href="{% url 'tableActionUpdate' id=table.id%}">
-              <button type="button" class="btn btn-info">
-                <i class="fas fa-edit"></i>
-              </button>
-            </a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-<br>
-<br> -->

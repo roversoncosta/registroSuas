@@ -24,8 +24,9 @@
   <div class="card mb-4">
     
     <div class="card-body table-responsive-sm" style="overflow:auto; max-height: 400px;">
-      {% for table in context %}
-        <p>Data Ação</p>
+      {% for itm in acaoatpmodel_list %}
+      {{item.id}}
+        <!-- <p>Data Ação</p>
         {{table.data_acao }}
         <p>Ação Realizada</p>
         {{table.acao_realizada}}
@@ -36,7 +37,7 @@
         <p>Município Atendido</p>
         {{table.municipio_atendido}}
         <p>Descrição</p>
-        {{table.descricao_acao}}
+        {{table.descricao_acao}} -->
         {% endfor %}
         </tbody>
 
