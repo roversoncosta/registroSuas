@@ -157,18 +157,18 @@ class ACOES():
             'acaoOutras_object_model':acaoOutras_object_model})
     
     
-    def listAcao(request, id):
-            df_atp = pd.DataFrame(list(AcaoAtpModel.objects.filter(user=request.user, id=id).values().order_by('-id')))
-            df_atnp = pd.DataFrame(list(AcaoAtnpModel.objects.filter(user=request.user, id=id).values().order_by('-id')))
-            df_outras = pd.DataFrame(list(AcaoOutrasModel.objects.filter(user=request.user, id=id).values().order_by('-id')))
-            df = pd.concat([df_atp,df_atnp,df_outras])
-            # df['data_acao'] = pd.to_datetime(df['data_acao']).dt.strftime('%d-%m-%y')
-            json_records = df.reset_index().to_json(orient ='records')
-            data_json_acoes = []
-            data_json_acoes = json.loads(json_records)
-            print(df)
-            return render(request, 'app/tables/tableAction/listAcao.html', {'data_json_acoes':data_json_acoes,
-                                                                    })
+    # def listAcao(request, id):
+    #         df_atp = pd.DataFrame(list(AcaoAtpModel.objects.filter(user=request.user, id=id).values().order_by('-id')))
+    #         df_atnp = pd.DataFrame(list(AcaoAtnpModel.objects.filter(user=request.user, id=id).values().order_by('-id')))
+    #         df_outras = pd.DataFrame(list(AcaoOutrasModel.objects.filter(user=request.user, id=id).values().order_by('-id')))
+    #         df = pd.concat([df_atp,df_atnp,df_outras])
+    #         # df['data_acao'] = pd.to_datetime(df['data_acao']).dt.strftime('%d-%m-%y')
+    #         json_records = df.reset_index().to_json(orient ='records')
+    #         data_json_acoes = []
+    #         data_json_acoes = json.loads(json_records)
+    #         print(df)
+    #         return render(request, 'app/tables/tableAction/listAcao.html', {'data_json_acoes':data_json_acoes,
+    #                                                                 })
 
 
 
@@ -183,7 +183,7 @@ class EVENTO():
                 profile = formEvento.save(commit=False)
                 profile.user = request.user
                 profile.save()
-                return redirect('/users/formulario-de-evento')
+                return redirect('/users/formulario-de-eventos')
         else:
             formEvento = TableEventForm()
         return render(request, 'app/tables/tableEvent/tableEventRegister.html', {'formEvento':formEvento})
@@ -284,6 +284,7 @@ def tables(request):
                                                             'page_object_evento':page_object_evento,
                                                             'page_object_interset':page_object_interset,
                                                              })
+
 
 
 

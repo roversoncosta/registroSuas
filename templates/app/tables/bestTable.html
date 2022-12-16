@@ -1,0 +1,101 @@
+{% extends 'app/index.html' %}
+{% load static%}
+{% block title %} 📋 Tabelas {% endblock %}
+{% block content %}
+
+<style>
+  .table.table-ellipsis tbody td {
+                                    max-width: 200px;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap
+                                  }
+</style>
+
+<div class="container-fluid px-4">
+  <h1 class="mt-4">TABELA DE REGISTROS</h1>
+  <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Visualização e Edição dos Registros</li>
+  </ol>
+
+
+  <!-- testando tabela de acoes concatenada e em formado json para pegar bootstrap config -->
+  <!-- TABELA DE AÇÕES - ATP + ATNP + OUTRAS AÇÕES CONCATENADAS (FUNÇÃO INSERIDA NA VIEWS #################################################-->
+
+    <div class="card-body table-responsive-sm">
+      <table class="table table-sm mydatatable table-hover table-bordered table-ellipsis display compact"  style="width:100%; font-size:90%;" >
+        <thead >
+          <tr>
+            <th scope="col">Data Ação</th>
+            <th scope="col">Ação Realizada</th>
+            <th scope="col">Caract. Ação</th>
+            <th scope="col">Município Atendido</th>
+            <th scope="col">Nº Prof. Atendidos</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+
+
+  
+          </tr>
+        </thead>
+        <tbody>
+          {% for table in data_json_acoes %}
+            <td>{{table.data_acao }}</td>
+            <td width="25%">{{table.acao_realizada}}</td>
+            <td>{{table.caracteristica_acao}}</td>
+            <td>{{table.municipio_atendido}}</td>
+            <td  style="text-align:center">{{table.n_profissionais_atendidos}}</td>
+
+            
+
+            <!-- LIST BUTTON -->
+            <td>
+              {% if table.acao_realizada == "Apoio Técnico Presencial (ATP)" %}
+                <a href="{% url 'listAcaoAtp' id=table.id %}">
+              {% elif table.acao_realizada == "Apoio Técnico Não Presencial (ATNP)" %}
+                <a href="{% url 'listAcaoAtnp' id=table.id %}">
+              {% else %}
+              <a href="{% url 'listAcaoOutras' id=table.id %}"></a>
+              {% endif %}
+              <button type="button" class="btn btn-outline-secondary btn-sm">
+                <i class="fa-solid fa-file-lines"></i>
+            </td>
+            
+
+            <!-- UPDATE BUTTON -->
+            <td>
+              {% if table.acao_realizada == "Apoio Técnico Presencial (ATP)" %}
+                <a href="{% url 'updateAtp' id=table.id%}">
+              {% elif table.acao_realizada == "Apoio Técnico Não Presencial (ATNP)" %}
+                <a href="{% url 'updateAtnp' id=table.id%}">
+                {% else %}
+                <a href="{% url 'updateOutras' id=table.id%}"></a>
+                {% endif %}
+              <button type="button" class="btn btn-outline-info btn-sm">
+                <i class="fas fa-edit"></i>
+              </button>
+              </a>
+            </td>
+
+            <!-- DELETE BUTTON -->
+            <td>
+            {% if table.acao_realizada == "Apoio Técnico Presencial (ATP)" %}
+            <form action="{% url 'deleteAtp' id=table.id %}"method="POST">
+              {% csrf_token %}
+            {% elif table.acao_realizada == "Apoio Técnico Não Presencial (ATNP)" %}
+            <form action="{% url 'deleteAtnp' id=table.id %}" method="POST">
+            {% csrf_token %}
+            {% else %}
+            <form action="{% url 'deleteOutras' id=table.id %}" method="POST">
+              {% csrf_token %}
+            {% endif %}
+            <button type="submit" class="btn btn-outline-danger btn-sm" confirm="Deseja apagar ?">
+              <i class="fa-solid fa-trash"></i></button>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+{% endblock %}

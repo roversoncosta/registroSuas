@@ -4,11 +4,12 @@
 {% block content %}
 
 <style>
-  .table.table-ellipsis tbody td {
+  .mytable.mytable-ellipsis tbody td {
                                     max-width: 200px;
                                     overflow: hidden;
                                     text-overflow: ellipsis;
-                                    white-space: nowrap
+                                    white-space: nowrap;
+                                    color: rgb(95, 94, 94);
                                   }
 </style>
 
@@ -26,8 +27,8 @@
         <i class="fas fa-table me-1"></i>
         1. Ações Realizadas
     </div>
-    <div class="card-body table-responsive-sm" style="overflow:auto; max-height: 400px;">
-      <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
+    <div class="card-body table-responsive-sm text-muted" style="overflow:auto; max-height: 400px;">
+      <table class=" table-sm mytable table table-striped mytable-ellipsis" style="width:100%; font-size:90%" >
         <thead>
           <tr>
             <th scope="col">Data Ação</th>
@@ -35,16 +36,19 @@
             <th scope="col">Caract. Ação</th>
             <th scope="col">Município Atendido</th>
             <th scope="col">Nº Prof. Atendidos</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           {% for table in data_json_acoes %}
+          <tr>
             <td>{{table.data_acao }}</td>
-            <td width="25%">{{table.acao_realizada}}</td>
+            <td>{{table.acao_realizada}}</td>
             <td>{{table.caracteristica_acao}}</td>
             <td>{{table.municipio_atendido}}</td>
             <td  style="text-align:center">{{table.n_profissionais_atendidos}}</td>
-            
 
             <!-- LIST BUTTON -->
             <td>
@@ -53,9 +57,9 @@
               {% elif table.acao_realizada == "Apoio Técnico Não Presencial (ATNP)" %}
                 <a href="{% url 'listAcaoAtnp' id=table.id %}">
               {% else %}
-              <a href="{% url 'listAcaoOutras' id=table.id %}">Ver</a>
+              <a href="{% url 'listAcaoOutras' id=table.id %}"></a>
               {% endif %}
-              <button type="button" class="btn btn-outline-secondary btn-sm">
+              <button type="button" class="btn btn-outline-info btn-sm">
                 <i class="fa-solid fa-file-lines"></i>
             </td>
             
@@ -69,7 +73,7 @@
                 {% else %}
                 <a href="{% url 'updateOutras' id=table.id%}"></a>
                 {% endif %}
-              <button type="button" class="btn btn-outline-info btn-sm">
+              <button type="button" class="btn btn-outline-warning btn-sm">
                 <i class="fas fa-edit"></i>
               </button>
               </a>
@@ -104,7 +108,7 @@
     </div>
 
     <div class="card-body table-responsive-sm" style="overflow:auto; max-height: 400px;">
-      <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
+      <table class=" table-sm mytable table-hover mytable-ellipsis" style="width:100%; font-size:90%" >
         <thead>
           <tr>
             <th scope="col">Data inicial</th>
@@ -112,6 +116,9 @@
             <th scope="col">Nome do Evento</th>
             <th scope="col">Tipo do Evento</th>
             <th scope="col">Intituição ofertante</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
             
             <!-- <th scope="col">Deletar</th>
             <th scope="col">Editar</th> -->
@@ -130,7 +137,7 @@
             <!-- LIST BUTTON -->
             <td>
               <a href="{% url 'listEvento' id=table.id %}">
-                <button type="button" class="btn btn-outline-secondary btn-sm">
+                <button type="button" class="btn btn-outline-info btn-sm">
                   <i class="fa-solid fa-file-lines"></i>
                 </button>
               </a>
@@ -139,7 +146,7 @@
             <td> 
               <!-- UPDATE BUTTON -->
               <a href="{% url 'updateEvento' id=table.id%}">
-                <button type="button" class="btn btn-outline-info btn-sm">
+                <button type="button" class="btn btn-outline-warning btn-sm">
                   <i class="fas fa-edit"></i>
                 </button>
               </a>
@@ -171,12 +178,15 @@
           3. Participação em Instâncias Intersetoriais do SUAS
       </div>
       <div class="card-body table-responsive-sm" style="overflow:auto; max-height: 400px;">
-        <table class="table table-sm mydatatable table-hover table-borderless table-ellipsis " style="width:100%; font-size:90%" >
+        <table class="table-sm mytable table-hover mytable-ellipsis" style="width:100%; font-size:90%" >
           <thead >
             <tr>
               <th scope="col">Data inicial</th>
               <th scope="col">Data final</th>
               <th scope="col">Espaço de participação</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -190,14 +200,14 @@
               <!-- LIST BUTTON -->
               <td>
                 <a href="{% url 'listInterset' id=table.id %}">
-                  <button type="button" class="btn btn-outline-secondary btn-sm">
+                  <button type="button" class="btn btn-outline-info btn-sm">
                     <i class="fa-solid fa-file-lines"></i>
                   </button>
                 </a>
               </td>
               <!-- UPDATE BUTTON -->
               <td><a href="{% url 'updateInterset' id=table.id%}">
-                <button type="button" class="btn btn-outline-info btn-sm">
+                <button type="button" class="btn btn-outline-warning btn-sm">
                   <i class="fas fa-edit"></i>
                 </button>
 
@@ -236,25 +246,6 @@
 
 
 
- 
-
-<!-- Modal ######################################################### -->
-<div class="modal fade" id="tableActionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Descrição</h5>
-      </div>
-      <div class="modal-body">
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="buttonClose">Fechar Descrição</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 {% endblock %}

@@ -146,7 +146,7 @@ MEDIA_ROOT = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/users/tabelas'
-LOGOUT_REDIRECT_URL = ''
+LOGOUT_REDIRECT_URL = '/users/contas/login'
 
 #Session
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

@@ -66,7 +66,7 @@
                             </div>
 
             
-                            <a class="nav-link" href="formulario-de-evento">
+                            <a class="nav-link" href="/users/formulario-de-eventos">
                                 <div class="sb-nav-link-icon"><i class="fas fa-keyboard"></i></div>
                                 Participação em Eventos
                             </a>
@@ -132,29 +132,42 @@
         <script src="{% static "assets/demo/chart-bar-demo.js" %}"></script>
         <!-- tables -->        
         <script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script> 
-        <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js" crossorigin="anonymous"></script> 
+        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js" crossorigin="anonymous"></script> 
         <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdn.datatables.net/rowreorder/1.3.1/js/dataTables.rowReorder.min.js"></script>
 
-        <!-- <script>
-            $(document).ready(function () {
-            $('.mydatatable').DataTable();
-            });
-            $('.mydatatable').DataTable( 
-                {
-                    scrollX: true,
+        <!-- configuracoes da tabela -->
+        
+        <script>
+        
+            $(document).ready(function () 
+            {
+            $('.mytable').DataTable({
                     language:{
                         paginate: {
-                            previous: '<<',
-                            next:     '>>'
+                            previous: '<',
+                            next:     '>'
                         },
-                        "lengthMenu": "Mostrar _MENU_ registros por página",
+                        "lengthMenu": "Mostrar _MENU_  registros",
                         "zeroRecords": "Nenhum registro encontrado",
                         "info": "Pg. _PAGE_ de _PAGES_",
-                        "search": "Pesquisar",
-                    },pageLength :10,paging: true, searching: true, responsive: true,
-                }
-                );
-
-        </script> -->
+                        "infoFiltered":" (Pesquisado em _MAX_ linhas)",
+                        "search": "Filtro",
+                    },
+                    paging: true, searching: true, responsive: true,
+                    lengthMenu: [
+                        [5, 10, 50, -1],
+                        [5, 10, 50, 'Todos'],
+                    ],
+                    // Para o SORT valer apenas para primeira coluna
+                    rowReorder: true, columnDefs: [
+                        { orderable: true, className: 'reorder', targets: 0 },
+                        { orderable: false, targets: '_all' }
+                    ]
+                });
+            });
+     
+        
+        </script>
     </body>
 </html>

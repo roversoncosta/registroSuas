@@ -30,7 +30,7 @@ urlpatterns = [
     
     ### EVENTOS -------------------------->>>>>>>>>
     #CRIAR EVENTOS
-    path('formulario-de-evento/', view=EVENTO.getEvento, name="getEvento"),   
+    path('formulario-de-eventos', view=EVENTO.getEvento, name="getEvento"),   
     #DELETAR EVENTOS
     path('deletar-tabela-evento/<id>', view=EVENTO.deleteEvento, name="deleteEvento"),
     #ATUALIZAR EVENTOS
