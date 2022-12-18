@@ -70,7 +70,7 @@ def importAcoes():
         
     data.caracteristica_acao = data.caracteristica_acao.fillna('vazio')
     data.n_profissionais_atendidos   = data.n_profissionais_atendidos.fillna(0)
-    data.data_acao = pd.to_datetime(data.data_acao)
+    # data.data_acao = pd.to_datetime(data.data_acao)
 
     return data
 
