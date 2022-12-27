@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title%} Registro de Eventos {% endblock %}
+{% block title%} Atualizar Intersetoriais {% endblock %}
 
 
 {% block content %}
@@ -13,7 +13,7 @@
     </div>
     <div class="rounded mt-4 mb-4 center">
       <h3 class="text-center mt-4 mb-4 text-warning" ><i class="fas fa-edit"></i> ATUALIZAÇÃO DE REGISTROS</h3>
-      </div>
+    </div>
     <!-- <h4 class="font-weight-bold text-left mt-4 mb-4 left" >Registro de Ações Realizadas </h4> -->
     <h6 style="color:rgb(123, 123, 123);"><span style="font-weight: bold;">Usuário:</span> {{user.first_name|title}} {{user.last_name|title}}</h6>
     <h6 style="color:rgb(123, 123, 123);"><span style="font-weight: bold;">Setor:</span> {{user.sector_name}}</h6>
@@ -27,21 +27,21 @@
       <form method="post" >
             {% csrf_token %}
             <div class="row">
-              <div class="col-md-12">
-                  {{form_table_interset.espaco_participacao|as_crispy_field}}
+              <div class="col-md-6">
+                  {{formInterset.espaco_participacao_suas|as_crispy_field}}
               </div>
               <div class="col-md-6">
-                {{form_table_interset.data_inicial|as_crispy_field}}
+                {{formInterset.espaco_participacao_intersetoriais|as_crispy_field}}
             </div>
-              <div class="col-md-6">
-                  {{ form_table_interset.data_final|as_crispy_field}}
-              </div>
-              <div class="col-md-6">
-                  {{ form_table_interset.descricao|as_crispy_field}}
+              <div class="col-md-12">
+                {{formInterset.data_participacao|as_crispy_field}}
+            </div>
+              <div class="col-md-12">
+                  {{ formInterset.descricao|as_crispy_field}}
               </div>
               
-              <div class="col-md-6">
-                  {{ form_table_interset.encaminhamentos|as_crispy_field}}
+              <div class="col-md-12">
+                  {{ formInterset.encaminhamentos|as_crispy_field}}
               </div>
           
       

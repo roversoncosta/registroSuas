@@ -181,9 +181,10 @@
         <table class="table-sm mytable table-hover mytable-ellipsis" style="width:100%; font-size:90%" >
           <thead >
             <tr>
-              <th scope="col">Data inicial</th>
-              <th scope="col">Data final</th>
-              <th scope="col">Espaço de participação</th>
+              <th scope="col">Data da participação</th>
+              <th scope="col">Espaço de participação SUAS</th>
+              <th scope="col">Espaço de participação Intersetorial</th>
+              <th scope="col">Local</th>
               <th scope="col"></th>
               <th scope="col"></th>
               <th scope="col"></th>
@@ -192,9 +193,10 @@
           <tbody>
             {% for table in page_object_interset %}
             <tr>
-              <td>{{table.data_inicial|date:"d/m/y" }}</td>
-              <td>{{table.data_final|date:"d/m/y" }}</td>
-              <td>{{table.espaco_participacao}}</td>
+              <td>{{table.data_participacao|date:"d/m/y" }}</td>
+              <td>{{table.espaco_participacao_suas }}</td>
+              <td>{{table.espaco_participacao_intersetoriais}}</td>
+              <td>{{table.local}}</td>
 
 
               <!-- LIST BUTTON -->

@@ -31,6 +31,7 @@ def register_user(request):
     return render(request, 'app/register.html', {'form':form})
 
 ##### LOGIN / LOGOUT-----------------------------------------------------------------------------------------
+@check_user_is_authenticated
 def login_user(request):
     return render(request, 'app/registration/login.html')
 
@@ -244,7 +245,7 @@ class INTERSET():
         if form.is_valid():
             form.save()
             return redirect('/users/tabelas')
-        context = {'form_table_interset':form}
+        context = {'formInterset':form}
         return render(request, 'app/tables/tableInterset/tableIntersetUpdate.html', context=context)
     
     def listInterset(request, id):

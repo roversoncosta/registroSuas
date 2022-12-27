@@ -27,20 +27,20 @@
       <form method="post" >
             {% csrf_token %}
             <div class="row">
-              <div class="col-md-12">
-                  {{formInterset.espaco_participacao|as_crispy_field}}
+              <div class="col-md-6">
+                  {{formInterset.espaco_participacao_suas|as_crispy_field}}
               </div>
               <div class="col-md-6">
-                {{formInterset.data_inicial|as_crispy_field}}
+                {{formInterset.espaco_participacao_intersetoriais|as_crispy_field}}
             </div>
-              <div class="col-md-6">
-                  {{ formInterset.data_final|as_crispy_field}}
-              </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
+                {{formInterset.data_participacao|as_crispy_field}}
+            </div>
+              <div class="col-md-12">
                   {{ formInterset.descricao|as_crispy_field}}
               </div>
               
-              <div class="col-md-6">
+              <div class="col-md-12">
                   {{ formInterset.encaminhamentos|as_crispy_field}}
               </div>
           

@@ -91,8 +91,8 @@ class TableEventModel(models.Model):
     titulo_evento = models.TextField('Titulo', max_length=150)
     tipo_evento = models.CharField(max_length=50, choices=TIPO_EVENTO_CHOICE, default='Híbrida')
     instituicao_ofertante = models.CharField('Instituição Ofertante', max_length=150,null=False, default='')
-    data_inicial = models.DateField('Data Inicial')
-    data_final = models.DateField('Data Final')
+    data_inicial = models.DateField('Data Inicial', blank=False, null=False)
+    data_final = models.DateField('Data Final', blank=False, null=False)
     descricao_evento = models.TextField('Descrição do Evento', max_length=1000,null=False, default='')
     data_publicacao = models.DateField('Data da Publicação', default=timezone.now)
 
@@ -101,13 +101,11 @@ class TableEventModel(models.Model):
 ### TABELA DE PARTICIPAÇÃO EM INSTANCIAS INTERSETORIAIS
 class TableIntersetModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    espaco_participacao = models.CharField( max_length=150, choices=LISTA_ESPACO_PARTICIPACAO, default= '')
-    data_inicial = models.DateField('Data Inicial')
-    data_final = models.DateField('Data Final')
+    espaco_participacao_suas = models.CharField( max_length=150, choices=LISTA_ESPACO_PARTICIPACAO_INSTANCIAS_SUAS, default= '')
+    espaco_participacao_intersetoriais = models.CharField( max_length=150, choices=LISTA_ESPACO_PARTICIPACAO_INTERSETORIAIS, default= '')
+
+    data_participacao = models.DateField('Data da Participação',blank=False, null=False,default=timezone.now)
+    local = models.CharField(max_length=150, default= '')
     descricao = models.TextField('Descrição', max_length=1000,null=False, default='')
     encaminhamentos = models.TextField('Encaminhamentos', max_length=1000,null=True, default='')
 
-
-class ActionTypeModel(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tipoAcoes')
-    acao_realizada = models.CharField(max_length=100, choices= ACAO_REALIZADA_CHOICE, default= '')

@@ -12,6 +12,9 @@ LISTA_SETORES=(
 ('NUEP - Núcleo de Educação Permanente','NUEP - Núcleo de Educação Permanente'),
 ('CIB - Comissao Intergestores Bipartite','CIB - Comissao Intergestores Bipartite'),
 ('SAAS - GAB','SAAS - GAB'),
+('Superintendência de Gestão do SUAS','Superintendência de Gestão do SUAS'),
+('Superintendência de Serviços Socioassistenciais','Superintendência de Serviços Socioassistenciais'),
+('Superintendência de Benefícios, Programas e Projetos Socioassistencias do SUAS','Superintendência de Benefícios, Programas e Projetos Socioassistencias do SUAS')
 )
 
 ACAO_REALIZADA_CHOICE = (
@@ -58,8 +61,8 @@ TIPO_EVENTO_CHOICE = (
     ('Não Presencial', 'Não Presencial')
 )
 
-LISTA_ESPACO_PARTICIPACAO = (
-    ('(Outro)', '(Outro)') ,
+LISTA_ESPACO_PARTICIPACAO_INTERSETORIAIS = (
+    ('*Não se aplica', '*Não se aplica') ,
     ('CEDCA - Conselho Estadual dos Direitos da Criança e do Adolescente', 'CEDCA - Conselho Estadual dos Direitos da Criança e do Adolescente') ,
     ('FEPETI - Forum Estatual Erradicação do Trabalho Infantil', 'FEPETI - Forum Estatual Erradicação do Trabalho Infantil') ,
     ('CONEDE - Conselho Estadual dos Direitos da Pessoa Com Deficiência', 'CONEDE - Conselho Estadual dos Direitos da Pessoa Com Deficiência') ,
@@ -67,7 +70,17 @@ LISTA_ESPACO_PARTICIPACAO = (
     ('GT Intersetorial do Programa Saúde na Escola', 'GT Intersetorial do Programa Saúde na Escola') ,
     ('CIAMP - Comitê Intersetorial de População em Situação de Rua', 'CIAMP - Comitê Intersetorial de População em Situação de Rua') ,
     ('Grupo Condutor Estadual da Rede de Cuiadados da Pessoa Com Deficiência', 'Grupo Condutor Estadual da Rede de Cuiadados da Pessoa Com Deficiência')
+)
 
+LISTA_ESPACO_PARTICIPACAO_INSTANCIAS_SUAS =(
+('*Não se aplica','*Não se aplica'),
+('CEAS','CEAS'),
+('NEEP','NEEP'),
+('FETSUAS','FETSUAS'),
+('FETSUAS','FETSUAS'),
+('CIT','CIT'),
+('FONSEAS','FONSEAS'),
+('GT - Agenda Regulatória do SUAS','GT - Agenda Regulatória do SUAS')
 )
 
 

@@ -119,15 +119,6 @@ class AcaoOutrasForm(ModelForm):
 
 
 
-
-class ActionTypeForm(ModelForm):
-    class Meta:
-        model = ActionTypeModel
-        fields = ["acao_realizada"]
-        labels = {"acao_realizada": "TIPO DA AÇÃO:"}
-
-
-
 #### FORMULARIO DE EVENTOS
 class TableEventForm(ModelForm):
     class Meta:
@@ -167,17 +158,16 @@ class TableEventForm(ModelForm):
 class TableIntersetForm(ModelForm):
     class Meta:
         model = TableIntersetModel
-        fields = ['espaco_participacao','data_inicial','data_final','descricao','encaminhamentos']
+        fields = ['espaco_participacao_suas','espaco_participacao_intersetoriais','data_participacao','descricao','encaminhamentos']
         labels ={
-            'espaco_participacao':'Espaço de participação',
-            'data_inicial':'Data inicial',
-            'data_final':'Data final',
+            'espaco_participacao_suas':'Espaço de participação do SUAS',
+            'espaco_participacao_intersetoriais':'Espaço de participação Intersetorial',
+            'data_participacao':'Data da participação',
             'descricao':'Descrição',
             'encaminhamentos':'Encaminhamentos (caso houve algum)'
         }   
         widgets = {
-            'data_inicial': forms.DateInput(attrs={'type':'date'}),
-            'data_final': forms.DateInput(attrs={'type':'date'})
+            'data_participacao': forms.DateInput(attrs={'type':'date'}),
         }     
 
 

@@ -10,8 +10,10 @@
     - Criacao de usuario funcionando ok
     - criacao de acoes funcionando ok
     - tabelas de acoes importando baseadas no id dos usuarios registrados ok
+    - importar e criar eventos e intancias em massa. ok
+    - verificar os campos do modelo de evento e interset se estao iguais aos ao formulario do drive ok
 
 
 PROXIMAS TAREFAS:
-    - importar e criar eventos e intancias em massa.
-    - verificar os campos do modelo de evento e interset se estao iguais aos ao formulario do drive. acho que houve mudancas la 
+    - Alterar formato de data para portugues
+    - 

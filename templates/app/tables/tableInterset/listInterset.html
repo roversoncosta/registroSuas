@@ -18,9 +18,11 @@
   
       {% for interset in interset_object_model %}
       <!-- <h6>Título do Evento:</h6> -->
-      <p><span style="font-weight:bold;">Título do Evento:</span> {{interset.espaco_participacao}}</p>
-      <p><span style="font-weight:bold;">Data Inicial:</span> {{interset.data_inicial}}. <span style="font-weight:bold;">Data Final:</span> {{evento.data_final}}</p>
-      <p><span style="font-weight:bold;">Descrição:</span><br>{{interset.descricao_evento}}</p>
+      <p><span style="font-weight:bold;">Data da participação:</span><br>{{interset.data_participacao}}</p>
+      <p><span style="font-weight:bold;">Espaço de participação SUAS:</span><br>{{interset.espaco_participacao_suas}}.</p>
+      <p><span style="font-weight:bold;">Espaço de participação Intersetorial:</span><br>{{interset.espaco_participacao_intersetoriais}}</p>
+      <p><span style="font-weight:bold;">Local:</span><br>{{interset.local}}</p>
+      <p><span style="font-weight:bold;">Descrição:</span><br>{{interset.descricao}}</p>
       <p><span style="font-weight:bold;">Encaminhamentos:</span><br>{{interset.encaminhamentos}}</p>
       <br>
       <hr>
