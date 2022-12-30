@@ -16,6 +16,11 @@ from .decorators import check_user_is_authenticated, user_required
 
 import pandas as pd
 import json
+import plotly.graph_objects as go
+import plotly.io as pio
+import plotly.express as px
+from datetime import datetime
+from datetime import date
 
 
 #### REGISTRO DE USURIOS ---------------------------------------------------------------------
@@ -295,8 +300,118 @@ def main(request):
     return render(request, 'app/main.html')
 
 
-def index(request):
-    return render(request, 'app/index.html')
+def dashboards(request):
+    df_atp = pd.DataFrame(list(AcaoAtpModel.objects.filter(user=request.user).values().order_by('-id')))
+    df_atnp = pd.DataFrame(list(AcaoAtnpModel.objects.filter(user=request.user).values().order_by('-id')))
+    df_outras = pd.DataFrame(list(AcaoOutrasModel.objects.filter(user=request.user).values().order_by('-id')))
+    df = pd.concat([df_atp,df_atnp,df_outras])#.drop(columns=['user_id'])
+    df['data_acao'] = pd.to_datetime(df['data_acao'])#.dt.strftime('%d-%m-%y')
+    df = df.sort_values(by='data_acao', ascending=False)
+
+    t_atp = df.loc[df['acao_realizada']=='Apoio Técnico Presencial (ATP)'].shape[0]
+    t_atnp = df.loc[df['acao_realizada']=='Apoio Técnico Não Presencial (ATNP)'].shape[0]
+    t_outras = df.loc[df['acao_realizada']=='Outras Ações'].shape[0]
+    t_acoes = df.shape[0]
+    #GRAFICO 1
+    fig1 = go.Figure(data=[go.Pie(labels=df.acao_realizada.value_counts().index, 
+                              values=df.acao_realizada.value_counts().values, textinfo='percent',
+                             hole=.3
+                            )])
+    fig1.update_layout(template=None, autosize=True, hovermode="x", title=None,
+    margin=dict(l=20, r=20, t=20, b=20),
+                        legend=dict(
+                            orientation="h",
+                            yanchor="bottom",
+                            y=1.0,
+                            xanchor="right",
+                            x=1,
+                            font=dict(size=12)))
+    
+    
+    # GRAFICO 2
+    dic_mes = {1:'Jan',2:'Fev',3:'Mar',4:'Abr',5:'Mai',6:'Jun',7:'Jul',8:'Ago',9:'Set',10:'Out',11:'Nov',12:'Dez'}
+    df['n_mes_acao'] = df['data_acao'].dt.month
+    df['mes_acao'] = df['n_mes_acao'].map(dic_mes)
+    df['ano_acao'] = df['data_acao'].dt.year
+    g2 = df.groupby(['n_mes_acao','mes_acao','data_acao','acao_realizada']).id.count().unstack().reset_index().rename_axis(None,axis=1).fillna(0).copy()
+    g2 = g2.groupby(['n_mes_acao','mes_acao']).sum().reset_index()
+
+    fig2 = go.Figure()
+    if 'Apoio Técnico Presencial (ATP)' in g2.columns:
+        fig2.add_trace(go.Bar(x=g2.mes_acao,  # index por que? porque o index é a 'date'
+                                y=g2['Apoio Técnico Presencial (ATP)'],
+                                marker_color='#F4D03F',
+                                name='ATP',
+                                hovertemplate='%{y:,.0f}'
+                                ))
+    if 'Apoio Técnico Não Presencial (ATNP)' in g2.columns:
+        fig2.add_trace(go.Bar(x=g2.mes_acao,
+                                    y=g2['Apoio Técnico Não Presencial (ATNP)'],
+                                    marker_color='#A569BD',
+                                    name='ATNP',
+                                    hovertemplate='%{y:,.0f}'))
+    if 'Outras Ações' in g2.columns:
+        fig2.add_trace(go.Bar(x=g2.mes_acao,
+                                    y=g2['Outras Ações'],
+                                    marker_color='#CACFD2',
+                                    name='OUTRAS',
+                                    hovertemplate='%{y:,.0f}'))
+
+    fig2.update_layout(template=None, autosize=True, hovermode="x", title=None,
+    margin=dict(l=20, r=20, t=20, b=20),
+                        legend=dict(
+                            orientation="h",
+                            yanchor="bottom",
+                            y=1.0,
+                            xanchor="right",
+                            x=1,
+                            font=dict(size=12)))
+    
+    
+    ### GERAR TABELAS DE CARACTERISTICAS DAS ACOES
+    #TAB1 = ATNP
+    tab1 = df.loc[df['acao_realizada']=='Apoio Técnico Não Presencial (ATNP)'].groupby(['caracteristica_acao','n_mes_acao']).size().unstack().reset_index().rename_axis(None,axis=1).fillna(0)
+    dic_group_mes = {'caracteristica_acao':'Apoio Técnico Não Presencial (ATNP)',1:'Jan',2:'Fev',3:'Mar',4:'Abr',5:'Mai',6:'Jun',7:'Jul',8:'Ago',9:'Set',10:'Out',11:'Nov',12:'Dez'}
+    tab1.columns = tab1.columns.map(dic_group_mes)
+    tab1.iloc[:,1:] = tab1.iloc[:,1:].astype(int)
+    #TAB2 = ATP
+    tab2 = df.loc[df['acao_realizada']=='Apoio Técnico Presencial (ATP)'].groupby(['caracteristica_acao','n_mes_acao']).size().unstack().reset_index().rename_axis(None,axis=1).fillna(0)
+    dic_group_mes = {'caracteristica_acao':'Apoio Técnico Presencial (ATP)',1:'Jan',2:'Fev',3:'Mar',4:'Abr',5:'Mai',6:'Jun',7:'Jul',8:'Ago',9:'Set',10:'Out',11:'Nov',12:'Dez'}
+    tab2.columns = tab2.columns.map(dic_group_mes)
+    tab2.iloc[:,1:] = tab2.iloc[:,1:].astype(int)
+    #TAB3 = Outras Ações
+    tab3 = df.loc[df['acao_realizada']=='Outras Ações'].groupby(['caracteristica_acao','n_mes_acao']).size().unstack().reset_index().rename_axis(None,axis=1).fillna(0)
+    dic_group_mes = {'caracteristica_acao':'Outras Ações',1:'Jan',2:'Fev',3:'Mar',4:'Abr',5:'Mai',6:'Jun',7:'Jul',8:'Ago',9:'Set',10:'Out',11:'Nov',12:'Dez'}
+    tab3.columns = tab3.columns.map(dic_group_mes)
+    tab3.iloc[:,1:] = tab3.iloc[:,1:].astype(int)
+    
+    tab1_json = tab1.reset_index().to_json(orient ='records')
+    tab1_json = json.loads(tab1_json)
+
+    df['data_acao'] = pd.to_datetime(df['data_acao']).dt.strftime('%d-%m-%y')
+    # transformando dataframe em json para rodar com bootstrap
+    json_records = df.reset_index().to_json(orient ='records')
+    data_json_acoes = []
+    data_json_acoes = json.loads(json_records)
+
+    # print(data_json)
+    # context = {'d': data}
+    return render(request, 'app/dashboards/painelAcoes.html', {
+        'tab1_col':tab1.columns,
+        'tab1_row':tab1.values,
+        'tab2_col':tab2.columns,
+        'tab2_row':tab2.values,
+        'tab3_col':tab3.columns,
+        'tab3_row':tab3.values,
+        't_atp':t_atp,
+        't_atnp':t_atnp,
+        't_outras':t_outras,
+        't_acoes':t_acoes,
+        'data_json_acoes':data_json_acoes,
+        'fig1':fig1.to_html(),
+        'fig2':fig2.to_html(),
+         })
+
 
 
 # def tables(request):
@@ -307,8 +422,8 @@ def index(request):
 #     return render(request, 'app/register.html')
 
 
-def login(request):
-    return render(request, 'app/login.html')
+# def login(request):
+#     return render(request, 'app/login.html')
 
 
 def charts(request):

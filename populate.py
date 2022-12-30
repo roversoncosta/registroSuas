@@ -100,6 +100,6 @@ def bulk_create_interset():
 
 # RODAR FUNCOES
 # bulk_create_users() 
-bulk_create_acoes()
+# bulk_create_acoes()
 # bulk_create_eventos()
 # bulk_create_interset()

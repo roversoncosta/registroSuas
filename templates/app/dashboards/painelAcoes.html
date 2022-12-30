@@ -1,0 +1,196 @@
+{% extends 'app/index.html' %}
+{% load static%}
+{% block title %} 📋 Tabelas {% endblock %}
+{% block content %}
+
+<style>
+  .mytable.mytable-ellipsis tbody td {
+                                    max-width: 200px;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    color: rgb(95, 94, 94);
+                                  }
+  
+.simpletable-ellipsis tbody td {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgb(95, 94, 94);
+}
+</style>
+
+<div class="container-fluid px-4">
+  <h1 class="mt-4">PAINEL DE DADOS - AÇÕES</h1>
+  <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Visualização e Edição dos Registros</li>
+  </ol>
+
+  <div class="card text-center">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">AÇÕES</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">PART. EVENTOS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">PART. EM INSTÂNCIAS</a>
+        </li>
+      </ul>
+    </div>
+    <br>
+    <div class="card-body">
+      <!-- CARTOES -->
+      <div class="row">
+        <div class="col-xl-3 col-md-6">
+          <div class="card bg-light text-secondary mb-4">
+              <div class="card-body text-center"><h3>{{t_atp}}</h3></div>
+              <div class="card-footer d-flex align-items-center justify-content-between">
+                <span style="font-size: 70%;">Apoio Técnico Presencial (ATP)</span>
+              </div>
+          </div>
+      </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card bg-light text-secondary mb-4">
+            <div class="card-body text-center"><h3>{{t_atnp}}</h3></div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                  <span style="font-size: 70%;">Apoio Técnico Não Presencial (ATNP)</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card bg-light text-secondary mb-4">
+            <div class="card-body text-center"><h3>{{t_outras}}</h3></div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                  <span style="font-size: 70%;">Outras Ações</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card bg-light text-primary mb-4">
+            <div class="card-body text-center"><h3>{{t_acoes}}</h3></div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                  <span style="font-size: 70%;">  TOTAL - AÇÕES </span>
+                </div>
+            </div>
+        </div>
+      </div>
+      <br>
+      <!-- GRAFICOS -->
+      <div class="row">
+          <div class="col-xl-6">
+              <div class="card mb-4">
+                  <div class="card-header">
+                      <i class="fas fa-chart-area me-1"></i>
+                      Area Chart Example
+                  </div>
+                  <div class="card-body">
+                    {{fig1|safe}}  
+                  </div>
+              </div>
+          </div>
+          <div class="col-xl-6">
+              <div class="card mb-4">
+                  <div class="card-header">
+                      <i class="fas fa-chart-bar me-1"></i>
+                      Ações registradas por mês
+                  </div>
+                  <div class="card-body" width="100%" >
+                    {{fig2|safe}}
+                    <!-- <canvas id="myBarChart" width="100%" height="40"></canvas> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- TABELAS -->
+
+        <!-- testando tabela de acoes concatenada e em formado json para pegar bootstrap config -->
+        <!-- TABELA DE AÇÕES - ATP + ATNP + OUTRAS AÇÕES CONCATENADAS (FUNÇÃO INSERIDA NA VIEWS #################################################-->
+        <div class="card mb-4">
+          <div class="card-header">
+              <i class="fas fa-table me-1"></i>
+              CARACTERÍSTICAS DAS AÇÕES
+          </div>
+          <!-- TABELA 1 - CARACTERISTICAS ACAO ATNP -->
+          <div class="card-body table-responsive-sm text-muted" style="overflow:auto; max-height: 400px;">
+            <table class="table-sm table simpletable-ellipsis" style="width:100%; font-size:80%" >
+              <thead>
+                <tr>
+                  {% for col in tab1_col %}
+                  <th style="text-align: right;">{{col}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in tab1_row %}
+                <tr>   
+                    {% for item in row %}
+                      <td style="text-align: right;">{{item}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}    
+              </tbody>
+            </table>
+          </div>
+          <!-- TABELA 2 - CARACTERISTICAS ACAO ATP -->
+          <div class="card-body table-responsive-sm text-muted" style="overflow:auto; max-height: 400px;">
+            <table class="table-sm table simpletable-ellipsis" style="width:100%; font-size:80%" >
+              <thead>
+                <tr>
+                  {% for col in tab2_col %}
+                  <th style="text-align: right;">{{col}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in tab2_row %}
+                <tr>   
+                    {% for item in row %}
+                      <td style="text-align: right;">{{item}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- TABELA 3 - CARACTERISTICAS OUTRAS ACOES  -->
+          <div class="card-body table-responsive-sm text-muted" style="overflow:auto; max-height: 400px;">
+            <table class="table-sm table simpletable-ellipsis" style="width:100%; font-size:80%" >
+              <thead>
+                <tr>
+                  {% for col in tab3_col %}
+                  <th style="text-align: right;">{{col}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in tab3_row %}
+                <tr>   
+                    {% for item in row %}
+                      <td style="text-align: right;">{{item}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                
+        
+              </tbody>
+            </table>
+          </div>
+
+      </div>
+
+
+
+
+
+
+    </div>
+  </div>
+  
+
+</div>
+
+{% endblock %}

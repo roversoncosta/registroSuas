@@ -10,6 +10,8 @@ urlpatterns = [
     # REGISTRAR USUARIOS
     path('registrar', view=register_user, name="register_user"),
 
+    path('painel-acoes', view=dashboards, name="dashboards"),
+
     ### ACOES -------------------------->>>>>>>>>
     #CRIAR ACOES
     path('formulario-de-acao-atp', view=ACOES.getAcaoAtp, name="getAcaoAtp"),
